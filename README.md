@@ -22,8 +22,44 @@ pod 'RxNetwork'
 
 ## Author
 
-G-Xi0N, gao497868860@163.com
+gaoX, gao497868860@163.com
 
 ## License
 
 RxNetwork is available under the MIT license. See the LICENSE file for more info.
+
+## Usage
+
+### Import
+
+``` swift
+import RxNetwork
+```
+
+### Request with cache
+
+``` swift
+TestTarget.test(count: 10).cachedObject([TestModel].self, onCache: { (response) in
+    debugPrint("onCache")
+    debugPrint(response)
+}).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
+    debugPrint("onSuccess")
+    debugPrint(response)
+}, onError: nil).disposed(by: disposeBag)
+```
+
+``` swift
+TestTarget.test(count: 10).cache.request([TestModel].self, atKeyPath: "result").subscribe(onNext: { (response) in
+    debugPrint("onNext")
+    debugPrint(response)
+}).disposed(by: disposeBag)
+```
+
+### Request without cache
+
+``` swift
+TestTarget.test(count: 10).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
+    debugPrint("onSuccess")
+    debugPrint(response)
+}, onError: nil).disposed(by: disposeBag)
+```
