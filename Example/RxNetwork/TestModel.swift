@@ -1,6 +1,6 @@
 //
 //  TestModel.swift
-//  SwiftNetwork
+//  RxNetwork
 //
 //  Created by GorXion on 2018/4/17.
 //  Copyright © 2018年 gaoX. All rights reserved.
