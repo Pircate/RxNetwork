@@ -19,7 +19,9 @@ PODS:
   - RxSwift (4.1.2)
 
 DEPENDENCIES:
+  - Cache
   - FBSnapshotTestCase (~> 2.1.4)
+  - Moya/RxSwift
   - RxNetwork (from `../`)
 
 SPEC REPOS:
@@ -44,6 +46,6 @@ SPEC CHECKSUMS:
   RxNetwork: 674d47eec6de66c01df6ed93c3963d9719485630
   RxSwift: e49536837d9901277638493ea537394d4b55f570
 
-PODFILE CHECKSUM: b3c20043091f20a5afe4795c224aa35075d2289d
+PODFILE CHECKSUM: c21b185a401a8e4c8b6bef23180f0eba486bc1d4
 
 COCOAPODS: 1.5.0
