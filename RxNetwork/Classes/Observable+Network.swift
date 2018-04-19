@@ -11,7 +11,6 @@ import Moya
 import Result
 
 extension ObservableType where E: TargetType {
-    @available(iOS 9.0, *)
     public func request<T: Codable>(_ type: T.Type,
                                     atKeyPath keyPath: String? = nil,
                                     using decoder: JSONDecoder = .init()) -> Observable<T> {

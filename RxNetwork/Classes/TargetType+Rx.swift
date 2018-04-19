@@ -11,19 +11,8 @@ import Moya
 
 extension TargetType {
     
-    @available(iOS 9.0, *)
     public var cachedKey: String {
-        func parameter(task: Task) -> String {
-            switch task {
-            case .requestParameters(let parameters, _):
-                return "\(parameters)"
-            case let .requestCompositeParameters(bodyParameters, _, urlParameters):
-                return "\(bodyParameters)\(urlParameters)"
-            default:
-                return ""
-            }
-        }
-        return "\(URL(fileURLWithPath: path, relativeTo: baseURL).absoluteString)?\(parameter(task: task))"
+        return "\(URL(target: self).absoluteString)?\(task.parameters)"
     }
     
     public func request() -> Single<Response> {
@@ -36,7 +25,6 @@ extension TargetType {
         return request().map(type, atKeyPath: keyPath, using: decoder)
     }
     
-    @available(iOS 9.0, *)
     public func cachedObject<T: Codable>(_ type: T.Type,
                                          onCache: (T) -> Void) -> Single<Self> {
         if let entry = try? Network.storage?.entry(ofType: type, forKey: cachedKey), let object = entry?.object {
@@ -47,5 +35,20 @@ extension TargetType {
     
     public var cache: Observable<Self> {
         return Observable.just(self)
+    }
+}
+
+extension Task {
+    public var parameters: String {
+        switch self {
+        case .requestParameters(let parameters, _):
+            return "\(parameters)"
+        case .requestCompositeData(_, let urlParameters):
+            return "\(urlParameters)"
+        case let .requestCompositeParameters(bodyParameters, _, urlParameters):
+            return "\(bodyParameters)\(urlParameters)"
+        default:
+            return ""
+        }
     }
 }

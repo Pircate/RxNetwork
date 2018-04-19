@@ -11,7 +11,6 @@ import Moya
 import Result
 
 extension PrimitiveSequence where TraitType == SingleTrait, ElementType: TargetType {
-    @available(iOS 9.0, *)
     public func request<T: Codable>(_ type: T.Type,
                                     atKeyPath keyPath: String? = nil,
                                     using decoder: JSONDecoder = .init()) -> Single<T> {
@@ -54,7 +53,6 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
 }
 
 extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Codable {
-    @available(iOS 9.0, *)
     public func storeCachedObject(for target: TargetType) -> Single<ElementType> {
         return flatMap { object -> Single<ElementType> in
             try? Network.storage?.setObject(object, forKey: target.cachedKey)
