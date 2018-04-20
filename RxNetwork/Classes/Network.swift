@@ -30,7 +30,7 @@ extension Network {
 }
 
 extension Network {
-    public static let storage = try? Storage(diskConfig: DiskConfig(name: "NetworkRequestCache"), memoryConfig: MemoryConfig())
+    public static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"), memoryConfig: MemoryConfig())
 }
 
 extension MoyaProvider {
