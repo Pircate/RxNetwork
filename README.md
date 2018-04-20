@@ -40,18 +40,17 @@ import RxNetwork
 
 ``` swift
 TestTarget.test(count: 10).cachedObject([TestModel].self, onCache: { (response) in
-    debugPrint("onCache")
-    debugPrint(response)
+            
 }).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
-    debugPrint("onSuccess")
-    debugPrint(response)
-}, onError: nil).disposed(by: disposeBag)
+            
+}) { error in
+            
+}.disposed(by: disposeBag)
 ```
 
 ``` swift
 TestTarget.test(count: 10).cache.request([TestModel].self, atKeyPath: "result").subscribe(onNext: { (response) in
-    debugPrint("onNext")
-    debugPrint(response)
+
 }).disposed(by: disposeBag)
 ```
 
@@ -59,7 +58,6 @@ TestTarget.test(count: 10).cache.request([TestModel].self, atKeyPath: "result").
 
 ``` swift
 TestTarget.test(count: 10).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
-    debugPrint("onSuccess")
-    debugPrint(response)
+
 }, onError: nil).disposed(by: disposeBag)
 ```
