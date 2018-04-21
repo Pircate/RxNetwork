@@ -20,14 +20,6 @@ it, simply add the following line to your Podfile:
 pod 'RxNetwork'
 ```
 
-## Author
-
-gaoX, gao497868860@163.com
-
-## License
-
-RxNetwork is available under the MIT license. See the LICENSE file for more info.
-
 ## Usage
 
 ### Import
@@ -61,3 +53,11 @@ TestTarget.test(count: 10).request([TestModel].self, atKeyPath: "result").subscr
 
 }, onError: nil).disposed(by: disposeBag)
 ```
+
+## Author
+
+gaoX, gao497868860@163.com
+
+## License
+
+RxNetwork is available under the MIT license. See the LICENSE file for more info.
