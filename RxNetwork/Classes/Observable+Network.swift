@@ -34,7 +34,7 @@ extension ObservableType where E == Response {
                 if let object = try? decoder.decode(type, from: "{}".data(using: .utf8)!) {
                     return Observable.just(object)
                 }
-                if let object = try? decoder.decode(type, from: "[{}]".data(using: .utf8)!) {
+                if let object = try? decoder.decode(type, from: "[]".data(using: .utf8)!) {
                     return Observable.just(object)
                 }
                 return Observable.error(error)

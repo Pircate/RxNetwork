@@ -31,7 +31,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
                 if let object = try? decoder.decode(type, from: "{}".data(using: .utf8)!) {
                     return Single.just(object)
                 }
-                if let object = try? decoder.decode(type, from: "[{}]".data(using: .utf8)!) {
+                if let object = try? decoder.decode(type, from: "[]".data(using: .utf8)!) {
                     return Single.just(object)
                 }
                 return Single.error(error)
