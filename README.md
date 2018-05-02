@@ -30,29 +30,13 @@ import RxNetwork
 
 ### Request with cache
 
-``` swift
-TestTarget.test(count: 10).cachedObject([TestModel].self, onCache: { (response) in
-            
-}).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
-            
-}) { error in
-            
-}.disposed(by: disposeBag)
-```
+![](https://github.com/Ginxx/RxNetwork/blob/master/Example/cached_object.png)
 
-``` swift
-TestTarget.test(count: 10).cache.request([TestModel].self, atKeyPath: "result").subscribe(onNext: { (response) in
-
-}).disposed(by: disposeBag)
-```
+![](https://github.com/Ginxx/RxNetwork/blob/master/Example/cache.png)
 
 ### Request without cache
 
-``` swift
-TestTarget.test(count: 10).request([TestModel].self, atKeyPath: "result").subscribe(onSuccess: { (response) in
-
-}, onError: nil).disposed(by: disposeBag)
-```
+![](https://github.com/Ginxx/RxNetwork/blob/master/Example/without_cache.png)
 
 ## Author
 
