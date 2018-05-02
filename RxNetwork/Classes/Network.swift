@@ -26,11 +26,14 @@ public final class Network {
 }
 
 extension Network {
-    public static let provider = MoyaProvider<MultiTarget>(taskClosure: shared.taskClosure, timeoutInterval: shared.timeoutInterval, plugins: shared.plugins)
+    public static let provider = MoyaProvider<MultiTarget>(taskClosure: shared.taskClosure,
+                                                           timeoutInterval: shared.timeoutInterval,
+                                                           plugins: shared.plugins)
 }
 
 extension Network {
-    public static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"), memoryConfig: MemoryConfig())
+    public static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"),
+                                             memoryConfig: MemoryConfig())
 }
 
 extension MoyaProvider {

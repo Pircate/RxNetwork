@@ -12,3 +12,13 @@ struct TestModel: Codable {
     let name: String?
     let id: String?
 }
+
+struct TestResponse<T: Codable>: Codable {
+    let statusCode: Int?
+    let message: String?
+    let data: T?
+    
+    var success: Bool {
+        return statusCode == 200
+    }
+}
