@@ -29,7 +29,7 @@ extension TestTarget: TargetType {
     var task: Task {
         switch self {
         case .test(let count):
-            return .requestParameters(parameters: ["token": "", "body": ["count": count], "sign": ""], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["count": count], encoding: JSONEncoding.default)
         }
     }
     

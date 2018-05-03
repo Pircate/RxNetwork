@@ -20,6 +20,16 @@ class ViewController: UIViewController {
         
         Network.shared.timeoutInterval = 20
         Network.shared.plugins = [NetworkIndicatorPlugin()]
+        Network.shared.taskClosure = { target in
+            // configure common parameters etc.
+            switch target.task {
+            case let .requestParameters(parameters, encoding):
+                let params: [String: Any] = ["token": "", "sign": "", "body": parameters]
+                return .requestParameters(parameters: params, encoding: encoding)
+            default:
+                return target.task
+            }
+        }
         
         // request with cache
         TestTarget.test(count: 10).cachedObject([TestModel].self, onCache: { (response) in

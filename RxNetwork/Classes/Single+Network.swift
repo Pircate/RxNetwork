@@ -46,7 +46,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
             do {
                 return Single.just(.success(try response.map(type, atKeyPath: keyPath, using: decoder)))
             } catch let error {
-                return Single.just(.failure(MoyaError.objectMapping(error, response)))
+                return Single.just(.failure(.objectMapping(error, response)))
             }
         }
     }

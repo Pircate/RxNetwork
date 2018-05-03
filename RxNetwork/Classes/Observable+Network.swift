@@ -49,7 +49,7 @@ extension ObservableType where E == Response {
             do {
                 return Observable.just(.success(try response.map(type, atKeyPath: keyPath, using: decoder)))
             } catch let error {
-                return Observable.just(.failure(MoyaError.objectMapping(error, response)))
+                return Observable.just(.failure(.objectMapping(error, response)))
             }
         }
     }
