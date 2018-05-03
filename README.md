@@ -28,6 +28,23 @@ pod 'RxNetwork'
 import RxNetwork
 ```
 
+### Configure
+
+``` swift
+Network.shared.timeoutInterval = 20 // set timeout interval
+Network.shared.plugins = [NetworkIndicatorPlugin()] // add plugin
+Network.shared.taskClosure = { target in
+    // configure common parameters etc.
+    switch target.task {
+    case let .requestParameters(parameters, encoding):
+        let params: [String: Any] = ["token": "", "sign": "", "body": parameters]
+        return .requestParameters(parameters: params, encoding: encoding)
+    default:
+        return target.task
+    }
+}
+```
+
 ### Request with cache
 
 ![](https://github.com/Ginxx/RxNetwork/blob/master/Example/cached_object.png)
