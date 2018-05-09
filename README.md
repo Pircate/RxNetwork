@@ -34,8 +34,6 @@ import RxNetwork
 
 ### Request with cache
 
-![](https://github.com/Ginxx/RxNetwork/blob/master/Example/cached_object.png)
-
 ![](https://github.com/Ginxx/RxNetwork/blob/master/Example/cache.png)
 
 ### Request without cache
