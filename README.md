@@ -36,8 +36,8 @@ import RxNetwork
 
 ```swift
 TestTarget.test(count: 10)
-    .cachedObject([TestModel].self, onCache: { (response) in
-
+    .onCache([TestModel].self, { (response) in
+    
     })
     .request([TestModel].self, atKeyPath: "result")
     .subscribe(onSuccess: { (response) in
