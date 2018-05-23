@@ -11,7 +11,7 @@ import Moya
 
 public extension TargetType {
     
-    var cachedKey: String {
+    internal var cachedKey: String {
         return "\(URL(target: self).absoluteString)?\(task.parameters)"
     }
     
@@ -38,9 +38,9 @@ public extension TargetType {
     }
 }
 
-extension Task {
+fileprivate extension Task {
     
-    public var parameters: String {
+    var parameters: String {
         switch self {
         case .requestParameters(let parameters, _):
             return "\(parameters)"
