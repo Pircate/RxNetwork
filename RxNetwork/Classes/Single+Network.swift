@@ -8,7 +8,6 @@
 
 import RxSwift
 import Moya
-import Result
 
 extension PrimitiveSequence where TraitType == SingleTrait, ElementType: TargetType {
     

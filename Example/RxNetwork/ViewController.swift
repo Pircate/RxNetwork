@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         
         // request with cache
         TestTarget.test(count: 10)
-            .cachedObject([TestModel].self, onCache: { (response) in
+            .onCache([TestModel].self, { (response) in
                 debugPrint("onCache:", response.first?.name ?? "")
             })
             .request([TestModel].self, atKeyPath: "result")
@@ -42,7 +42,8 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         // or
-        TestTarget.test(count: 10).cache
+        TestTarget.test(count: 10)
+            .cache
             .request([TestModel].self, atKeyPath: "result")
             .subscribe(onNext: { (response) in
                 debugPrint("onNext:", response.first?.name ?? "")

@@ -25,11 +25,16 @@ public extension TargetType {
         return request().map(type, atKeyPath: keyPath, using: decoder)
     }
     
-    func cachedObject<T: Codable>(_ type: T.Type,
-                                  onCache: (T) -> Void) -> Single<Self> {
+    func cachedObject<T: Codable>(_ type: T.Type) -> T? {
         if let entry = try? Network.storage?.entry(ofType: type, forKey: cachedKey), let object = entry?.object {
-            onCache(object)
+            return object
         }
+        return nil
+    }
+    
+    func onCache<T: Codable>(_ type: T.Type,
+                             _ closure: (T) -> Void) -> Single<Self> {
+        if let object = cachedObject(type) { closure(object) }
         return Single.just(self)
     }
     

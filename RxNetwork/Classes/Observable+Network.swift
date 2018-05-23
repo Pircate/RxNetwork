@@ -8,7 +8,6 @@
 
 import RxSwift
 import Moya
-import Result
 
 extension ObservableType where E: TargetType {
     
@@ -16,7 +15,7 @@ extension ObservableType where E: TargetType {
                                     atKeyPath keyPath: String? = nil,
                                     using decoder: JSONDecoder = .init()) -> Observable<T> {
         return flatMap { target -> Observable<T> in
-            if let entry = try? Network.storage?.entry(ofType: type, forKey: target.cachedKey), let object = entry?.object {
+            if let object = target.cachedObject(type) {
                 return target.request(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target).asObservable().startWith(object)
             }
             return target.request(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target).asObservable()
