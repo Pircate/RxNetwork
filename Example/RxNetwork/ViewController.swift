@@ -57,16 +57,10 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        // map result
-        TestTarget.test(count: 10)
-            .request()
-            .mapResult([TestModel].self, atKeyPath: "result")
-            .subscribe(onSuccess: { (result) in
-                if let response = try? result.dematerialize() {
-                    debugPrint("map result", response.first?.name ?? "")
-                }
-            })
-            .disposed(by: disposeBag)
+        TestTarget.test(count: 10).request(TestResponse<[TestModel]>.self)
+            .subscribe(onSuccess: { (response) in
+                debugPrint("status code:", response.code)
+            }).disposed(by: disposeBag)
     }
 
     override func didReceiveMemoryWarning() {

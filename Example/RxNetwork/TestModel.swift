@@ -14,11 +14,11 @@ struct TestModel: Codable {
 }
 
 struct TestResponse<T: Codable>: Codable {
-    let statusCode: Int
+    let code: Int
     let message: String
-    let data: T
+    let result: T
     
     var success: Bool {
-        return statusCode == 200
+        return code == 2000
     }
 }

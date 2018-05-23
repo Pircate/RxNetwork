@@ -13,7 +13,7 @@ PODS:
     - Moya/Core
     - RxSwift (~> 4.0)
   - Result (3.2.4)
-  - RxNetwork (0.1.2):
+  - RxNetwork (0.2.0):
     - Cache
     - Moya/RxSwift
   - RxSwift (4.1.2)
@@ -25,7 +25,7 @@ DEPENDENCIES:
   - RxNetwork (from `../`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Cache
     - FBSnapshotTestCase
@@ -43,9 +43,9 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxNetwork: 2130f81bbeea6c408d300fbd5badc4ac6ab8e92d
+  RxNetwork: 03b359cf168a0644f8c9047255420653429dfcf2
   RxSwift: e49536837d9901277638493ea537394d4b55f570
 
 PODFILE CHECKSUM: c21b185a401a8e4c8b6bef23180f0eba486bc1d4
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2
