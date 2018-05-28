@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import RxSwift
+import Moya
+import RxNetwork
 
 struct TestModel: Codable {
     let name: String
@@ -20,5 +23,25 @@ struct TestResponse<T: Codable>: Codable {
     
     var success: Bool {
         return code == 2000
+    }
+}
+
+extension Network {
+    
+    enum Error: Swift.Error {
+        case unknown
+        case status(message: String)
+    }
+}
+
+extension TargetType {
+    
+    func requestWithResponse<T: Codable>(_ type: T.Type) -> Single<TestResponse<T>> {
+        return request(TestResponse<T>.self).flatMap({
+            if $0.success {
+                return Single.just($0)
+            }
+            return Single.error(Network.Error.status(message: $0.message))
+        })
     }
 }

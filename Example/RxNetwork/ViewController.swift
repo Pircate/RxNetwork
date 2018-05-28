@@ -58,7 +58,7 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        TestTarget.test(count: 10).request(TestResponse<[TestModel]>.self)
+        TestTarget.test(count: 10).requestWithResponse([TestModel].self)
             .subscribe(onSuccess: { (response) in
                 debugPrint("status code:", response.code)
             }).disposed(by: disposeBag)
