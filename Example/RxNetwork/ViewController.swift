@@ -36,7 +36,7 @@ class ViewController: UIViewController {
             .onCache([TestModel].self, { (response) in
                 debugPrint("onCache:", response.first?.name ?? "")
             })
-            .request([TestModel].self, atKeyPath: "result")
+            .requestWithResult([TestModel].self)
             .subscribe(onSuccess: { (response) in
                 debugPrint("onSuccess:", response.first?.name ?? "")
             })
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         // or
         TestTarget.test(count: 10)
             .cache
-            .request([TestModel].self, atKeyPath: "result")
+            .requestWithResult([TestModel].self)
             .subscribe(onNext: { (response) in
                 debugPrint("onNext:", response.first?.name ?? "")
             })
@@ -52,17 +52,10 @@ class ViewController: UIViewController {
         
         // request without cache
         TestTarget.test(count: 10)
-            .request([TestModel].self, atKeyPath: "result")
+            .request()
+            .mapResult([TestModel].self)
             .subscribe(onSuccess: { (response) in
                 debugPrint("without cache:", response.first?.name ?? "")
-            })
-            .disposed(by: disposeBag)
-        
-        TestTarget.test(count: 10)
-            .request()
-            .mapResponse([TestModel].self)
-            .subscribe(onSuccess: { (response) in
-                debugPrint("status code:", response.first?.name ?? "")
             }).disposed(by: disposeBag)
     }
 

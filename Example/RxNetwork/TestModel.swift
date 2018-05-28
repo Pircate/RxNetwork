@@ -25,28 +25,3 @@ struct TestResponse<T: Codable>: Codable {
         return code == 2000
     }
 }
-
-extension Network {
-    
-    enum Error: Swift.Error {
-        case unknown
-        case status(message: String)
-    }
-}
-
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Response {
-    
-    public func mapResponse<T: Codable>(_ type: T.Type,
-                                        atKeyPath keyPath: String? = nil,
-                                        using decoder: JSONDecoder = .init()) -> Single<T> {
-        return flatMap { response -> Single<T> in
-            if let resp = try? response.map(TestResponse<T>.self) {
-                if resp.success {
-                    return Single.just(resp.result)
-                }
-                return Single.error(Network.Error.status(message: resp.message))
-            }
-            return Single.error(MoyaError.jsonMapping(response))
-        }
-    }
-}

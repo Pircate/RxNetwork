@@ -29,24 +29,3 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Codable
         }
     }
 }
-
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
-    
-    public func mapObject<T: Codable>(_ type: T.Type,
-                                      atKeyPath keyPath: String? = nil,
-                                      using decoder: JSONDecoder = .init()) -> Single<T> {
-        return flatMap { response -> Single<T> in
-            do {
-                return Single.just(try response.map(type, atKeyPath: keyPath, using: decoder))
-            } catch let error {
-                if let object = try? decoder.decode(type, from: "{}".data(using: .utf8)!) {
-                    return Single.just(object)
-                }
-                if let object = try? decoder.decode(type, from: "[]".data(using: .utf8)!) {
-                    return Single.just(object)
-                }
-                return Single.error(error)
-            }
-        }
-    }
-}

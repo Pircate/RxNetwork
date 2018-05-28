@@ -17,6 +17,7 @@
 		B505B57620A2F39F00A9E11A /* CleanJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505B57520A2F39F00A9E11A /* CleanJSON.swift */; };
 		B5187D7320884D3F003B24D6 /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7120884D3E003B24D6 /* TestModel.swift */; };
 		B5187D7420884D3F003B24D6 /* TestTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7220884D3F003B24D6 /* TestTarget.swift */; };
+		B5ADC1F720BBE7F400E8695E /* Network+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ADC1F620BBE7F400E8695E /* Network+Rx.swift */; };
 		CD7CAA72DBE90614189CB5F8 /* Pods_RxNetwork_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913AD06F59B17CF9F8D39222 /* Pods_RxNetwork_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		B505B57520A2F39F00A9E11A /* CleanJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanJSON.swift; sourceTree = "<group>"; };
 		B5187D7120884D3E003B24D6 /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		B5187D7220884D3F003B24D6 /* TestTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTarget.swift; sourceTree = "<group>"; };
+		B5ADC1F620BBE7F400E8695E /* Network+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Rx.swift"; sourceTree = "<group>"; };
 		D9F2C18AED1F253B4DCA436B /* Pods-RxNetwork_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxNetwork_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxNetwork_Example/Pods-RxNetwork_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +113,7 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				B5187D7120884D3E003B24D6 /* TestModel.swift */,
+				B5ADC1F620BBE7F400E8695E /* Network+Rx.swift */,
 				B5187D7220884D3F003B24D6 /* TestTarget.swift */,
 				B505B57520A2F39F00A9E11A /* CleanJSON.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -364,6 +367,7 @@
 				B505B57620A2F39F00A9E11A /* CleanJSON.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				B5187D7420884D3F003B24D6 /* TestTarget.swift in Sources */,
+				B5ADC1F720BBE7F400E8695E /* Network+Rx.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,24 +22,3 @@ extension ObservableType where E: TargetType {
         }
     }
 }
-
-extension ObservableType where E == Response {
-    
-    public func mapObject<T: Codable>(_ type: T.Type,
-                                      atKeyPath keyPath: String? = nil,
-                                      using decoder: JSONDecoder = .init()) -> Observable<T> {
-        return flatMap { response -> Observable<T> in
-            do {
-                return Observable.just(try response.map(type, atKeyPath: keyPath, using: decoder))
-            } catch let error {
-                if let object = try? decoder.decode(type, from: "{}".data(using: .utf8)!) {
-                    return Observable.just(object)
-                }
-                if let object = try? decoder.decode(type, from: "[]".data(using: .utf8)!) {
-                    return Observable.just(object)
-                }
-                return Observable.error(error)
-            }
-        }
-    }
-}
