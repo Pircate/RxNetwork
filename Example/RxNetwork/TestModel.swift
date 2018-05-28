@@ -34,14 +34,19 @@ extension Network {
     }
 }
 
-extension TargetType {
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Response {
     
-    func requestWithResponse<T: Codable>(_ type: T.Type) -> Single<TestResponse<T>> {
-        return request(TestResponse<T>.self).flatMap({
-            if $0.success {
-                return Single.just($0)
+    public func mapResponse<T: Codable>(_ type: T.Type,
+                                        atKeyPath keyPath: String? = nil,
+                                        using decoder: JSONDecoder = .init()) -> Single<T> {
+        return flatMap { response -> Single<T> in
+            if let resp = try? response.map(TestResponse<T>.self) {
+                if resp.success {
+                    return Single.just(resp.result)
+                }
+                return Single.error(Network.Error.status(message: resp.message))
             }
-            return Single.error(Network.Error.status(message: $0.message))
-        })
+            return Single.error(MoyaError.jsonMapping(response))
+        }
     }
 }

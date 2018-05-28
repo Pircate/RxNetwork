@@ -58,9 +58,11 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        TestTarget.test(count: 10).requestWithResponse([TestModel].self)
+        TestTarget.test(count: 10)
+            .request()
+            .mapResponse([TestModel].self)
             .subscribe(onSuccess: { (response) in
-                debugPrint("status code:", response.code)
+                debugPrint("status code:", response.first?.name ?? "")
             }).disposed(by: disposeBag)
     }
 
