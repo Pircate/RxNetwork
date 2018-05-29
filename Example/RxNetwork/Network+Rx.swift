@@ -18,13 +18,26 @@ extension Network {
     }
 }
 
+extension Network {
+    
+    struct Response<T: Codable>: Codable {
+        let code: Int
+        let message: String
+        let result: T
+        
+        var success: Bool {
+            return code == 2000
+        }
+    }
+}
+
 extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Response {
     
     public func mapResult<T: Codable>(_ type: T.Type,
                                       atKeyPath keyPath: String? = nil,
                                       using decoder: JSONDecoder = .init()) -> Single<T> {
         return flatMap { response -> Single<T> in
-            if let resp = try? response.map(TestResponse<T>.self) {
+            if let resp = try? response.map(Network.Response<T>.self) {
                 if resp.success {
                     return Single.just(resp.result)
                 }
@@ -41,7 +54,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: TargetT
                                               atKeyPath keyPath: String? = nil,
                                               using decoder: JSONDecoder = .init()) -> Single<T> {
         return flatMap({ target -> Single<T> in
-            target.request().map(TestResponse<T>.self, atKeyPath: keyPath, using: decoder).map({
+            target.request().map(Network.Response<T>.self, atKeyPath: keyPath, using: decoder).map({
                 if $0.success { return $0.result }
                 throw Network.Error.status(code: $0.code, message: $0.message)
             }).storeCachedObject(for: target)
@@ -55,7 +68,7 @@ extension ObservableType where E: TargetType {
                                               atKeyPath keyPath: String? = nil,
                                               using decoder: JSONDecoder = .init()) -> Observable<T> {
         return flatMap { target -> Observable<T> in
-            let result = target.request().map(TestResponse<T>.self, atKeyPath: keyPath, using: decoder).map({ response -> T in
+            let result = target.request().map(Network.Response<T>.self, atKeyPath: keyPath, using: decoder).map({ response -> T in
                 if response.success { return response.result }
                 throw Network.Error.status(code: response.code, message: response.message)
             }).storeCachedObject(for: target).asObservable()
