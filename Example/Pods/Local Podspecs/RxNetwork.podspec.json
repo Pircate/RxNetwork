@@ -1,6 +1,6 @@
 {
   "name": "RxNetwork",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "summary": "A swift network library.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/Ginxx/RxNetwork",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/Ginxx/RxNetwork.git",
-    "tag": "0.2.2"
+    "tag": "0.3.0"
   },
   "platforms": {
     "ios": "9.0"
