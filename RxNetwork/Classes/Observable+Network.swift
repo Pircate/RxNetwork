@@ -15,10 +15,11 @@ extension ObservableType where E: TargetType {
                                     atKeyPath keyPath: String? = nil,
                                     using decoder: JSONDecoder = .init()) -> Observable<T> {
         return flatMap { target -> Observable<T> in
+            let source = target.request().map(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target).asObservable()
             if let object = target.cachedObject(type) {
-                return target.request(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target).asObservable().startWith(object)
+                return source.startWith(object)
             }
-            return target.request(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target).asObservable()
+            return source
         }
     }
 }

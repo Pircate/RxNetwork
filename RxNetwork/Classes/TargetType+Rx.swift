@@ -19,12 +19,6 @@ public extension TargetType {
         return Network.provider.rx.request(.target(self))
     }
     
-    func request<T: Codable>(_ type: T.Type,
-                             atKeyPath keyPath: String? = nil,
-                             using decoder: JSONDecoder = .init()) -> Single<T> {
-        return request().map(type, atKeyPath: keyPath, using: decoder)
-    }
-    
     func cachedObject<T: Codable>(_ type: T.Type) -> T? {
         if let entry = try? Network.storage?.entry(ofType: type, forKey: cachedKey), let object = entry?.object {
             return object

@@ -15,7 +15,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: TargetT
                                     atKeyPath keyPath: String? = nil,
                                     using decoder: JSONDecoder = .init()) -> Single<T> {
         return flatMap { target -> Single<T> in
-            return target.request(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target)
+            return target.request().map(type, atKeyPath: keyPath, using: decoder).storeCachedObject(for: target)
         }
     }
 }
