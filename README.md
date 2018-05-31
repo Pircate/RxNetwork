@@ -30,7 +30,20 @@ import RxNetwork
 
 ### Configure
 
-![](https://github.com/Ginxx/RxNetwork/blob/master/Example/config.png)
+```swift
+Network.default.timeoutInterval = 20
+Network.default.plugins = [NetworkIndicatorPlugin()]
+Network.default.taskClosure = { target in
+    // configure common parameters etc.
+    switch target.task {
+    case let .requestParameters(parameters, encoding):
+        let params: [String: Any] = ["token": "", "sign": "", "body": parameters]
+        return .requestParameters(parameters: params, encoding: encoding)
+    default:
+        return target.task
+    }
+}
+```
 
 ### Request with cache
 
