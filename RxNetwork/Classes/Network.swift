@@ -20,16 +20,13 @@ public final class Network {
     
     public var plugins: [PluginType] = []
     
-    public static let shared = Network()
+    public static let `default` = Network()
     
-    private init() {}
-}
-
-extension Network {
+    public init() {}
     
-    public static let provider = MoyaProvider<MultiTarget>(taskClosure: shared.taskClosure,
-                                                           timeoutInterval: shared.timeoutInterval,
-                                                           plugins: shared.plugins)
+    public lazy var provider: MoyaProvider<MultiTarget> = {
+        MoyaProvider<MultiTarget>(taskClosure: taskClosure, timeoutInterval: timeoutInterval, plugins: plugins)
+    }()
 }
 
 extension Network {

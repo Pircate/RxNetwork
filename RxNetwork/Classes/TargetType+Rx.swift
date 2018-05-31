@@ -16,7 +16,7 @@ public extension TargetType {
     }
     
     func request() -> Single<Response> {
-        return Network.provider.rx.request(.target(self))
+        return Network.default.provider.rx.request(.target(self))
     }
     
     func cachedObject<T: Codable>(_ type: T.Type) -> T? {
