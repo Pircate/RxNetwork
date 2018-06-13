@@ -8,6 +8,7 @@
 
 import RxSwift
 import Moya
+import Cache
 
 public extension TargetType {
     
@@ -20,7 +21,10 @@ public extension TargetType {
     }
     
     func cachedObject<T: Codable>(_ type: T.Type) -> T? {
-        if let entry = try? Network.storage?.entry(ofType: type, forKey: cachedKey), let object = entry?.object {
+        if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"),
+                                      memoryConfig: MemoryConfig(),
+                                      transformer: TransformerFactory.forCodable(ofType: type)),
+            let object = try? storage.object(forKey: cachedKey) {
             return object
         }
         return nil

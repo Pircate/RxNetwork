@@ -8,6 +8,7 @@
 
 import RxSwift
 import Moya
+import Cache
 
 extension PrimitiveSequence where TraitType == SingleTrait, ElementType: TargetType {
     
@@ -24,7 +25,11 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Codable
     
     public func storeCachedObject(for target: TargetType) -> Single<ElementType> {
         return flatMap { object -> Single<ElementType> in
-            try? Network.storage?.setObject(object, forKey: target.cachedKey)
+            if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"),
+                                          memoryConfig: MemoryConfig(),
+                                          transformer: TransformerFactory.forCodable(ofType: ElementType.self)) {
+                try storage.setObject(object, forKey: target.cachedKey)
+            }
             return Single.just(object)
         }
     }

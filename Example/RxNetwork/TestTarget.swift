@@ -15,7 +15,7 @@ enum TestTarget {
 extension TestTarget: TargetType {
     
     var baseURL: URL {
-        return URL(string: "http://106.15.201.144:82/")!
+        return URL(string: "https://app01.chengtay.com:82/")!
     }
     
     var path: String {
