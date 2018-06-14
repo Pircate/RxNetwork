@@ -50,19 +50,20 @@ Network.default.taskClosure = { target in
 ```swift
 TestTarget.test(count: 10)
     .onCache([TestModel].self, { (response) in
-    
+        
     })
-    .request([TestModel].self, atKeyPath: "result")
+    .requestObject()
     .subscribe(onSuccess: { (response) in
-
+        
     })
     .disposed(by: disposeBag)
 // or
 TestTarget.test(count: 10)
     .cache
-    .request([TestModel].self, atKeyPath: "result")
+    .request()
+    .mapObject([TestModel].self)
     .subscribe(onNext: { (response) in
-    
+        
     })
     .disposed(by: disposeBag)
 ```
