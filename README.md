@@ -48,16 +48,28 @@ Network.default.taskClosure = { target in
 ### Request with cache
 
 ```swift
-TestTarget.test(count: 10)
-    .onCache([TestModel].self, { (models) in
+/*
+ {
+    "top_stories": []
+ }
+ */
+StoryAPI.latest
+    .onCache(StoryListModel.self, { (response) in
         
     })
     .request()
-    .subscribe(onSuccess: { (models) in
+    .subscribe(onSuccess: { (response) in
         
     })
     .disposed(by: disposeBag)
 // or
+/*
+ {
+    "code": 2000,
+    "message": "Ok",
+    "result": []
+ }
+ */
 TestTarget.test(count: 10)
     .cache
     .request()
