@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		330FDE6420D2AC7F005673ED /* StoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FDE6320D2AC7E005673ED /* StoryAPI.swift */; };
+		330FDE6620D2AC9B005673ED /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FDE6520D2AC9B005673ED /* StoryModel.swift */; };
 		58905ADCC4CDC355D42A9A89 /* Pods_RxNetwork_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E6FAEEB18517E39AD844BFD /* Pods_RxNetwork_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -36,6 +38,8 @@
 		0E6FAEEB18517E39AD844BFD /* Pods_RxNetwork_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxNetwork_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		212052259B58AAF4A09CCA5B /* Pods-RxNetwork_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxNetwork_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxNetwork_Tests/Pods-RxNetwork_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		2F01BDF94A7D5CF6D57CFDE5 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		330FDE6320D2AC7E005673ED /* StoryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryAPI.swift; sourceTree = "<group>"; };
+		330FDE6520D2AC9B005673ED /* StoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* RxNetwork_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxNetwork_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +117,8 @@
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				B5187D7120884D3E003B24D6 /* TestModel.swift */,
+				330FDE6320D2AC7E005673ED /* StoryAPI.swift */,
+				330FDE6520D2AC9B005673ED /* StoryModel.swift */,
 				B5ADC1F620BBE7F400E8695E /* Network+Rx.swift */,
 				B5187D7220884D3F003B24D6 /* TestTarget.swift */,
 				B505B57520A2F39F00A9E11A /* CleanJSON.swift */,
@@ -367,7 +373,9 @@
 				B505B57620A2F39F00A9E11A /* CleanJSON.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				B5187D7420884D3F003B24D6 /* TestTarget.swift in Sources */,
+				330FDE6420D2AC7F005673ED /* StoryAPI.swift in Sources */,
 				B5ADC1F720BBE7F400E8695E /* Network+Rx.swift in Sources */,
+				330FDE6620D2AC9B005673ED /* StoryModel.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

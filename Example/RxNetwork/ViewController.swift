@@ -31,32 +31,62 @@ class ViewController: UIViewController {
             }
         }
         
-        // request with cache
-        TestTarget.test(count: 10)
-            .onCache([TestModel].self, { (response) in
-                debugPrint("onCache:", response.first?.name ?? "")
+        // MARK: - request with cache
+        /*
+         {
+            "top_stories": []
+         }
+         */
+        StoryAPI.latest
+            .onCache(StoryListModel.self, { (model) in
+                debugPrint("onCache:", model.topStories.first?.title ?? "")
             })
-            .requestObject()
-            .subscribe(onSuccess: { (response) in
-                debugPrint("onSuccess:", response.first?.name ?? "")
+            .request()
+            .subscribe(onSuccess: { (model) in
+                debugPrint("onSuccess:", model.topStories.first?.title ?? "")
             })
             .disposed(by: disposeBag)
+        
+        StoryAPI.latest
+            .cache
+            .request()
+            .map(StoryListModel.self)
+            .subscribe(onNext: { (model) in
+                
+            }).disposed(by: disposeBag)
         // or
+        /*
+         {
+            "code": 2000,
+            "message": "Ok",
+            "result": []
+         }
+         */
+        TestTarget.test(count: 10)
+            .onCache([TestModel].self, { (models) in
+                
+            })
+            .requestObject()
+            .subscribe(onSuccess: { (models) in
+                
+            })
+            .disposed(by: disposeBag)
+        
         TestTarget.test(count: 10)
             .cache
             .request()
             .mapObject([TestModel].self)
-            .subscribe(onNext: { (response) in
-                debugPrint("onNext:", response.first?.name ?? "")
+            .subscribe(onNext: { (models) in
+                debugPrint("onNext:", models.first?.name ?? "")
             })
             .disposed(by: disposeBag)
         
-        // request without cache
+        // MARK: - request without cache
         TestTarget.test(count: 10)
             .request()
             .mapObject([TestModel].self)
-            .subscribe(onSuccess: { (response) in
-                debugPrint("without cache:", response.first?.name ?? "")
+            .subscribe(onSuccess: { (models) in
+                debugPrint("without cache:", models.first?.name ?? "")
             }).disposed(by: disposeBag)
     }
 
