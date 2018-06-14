@@ -49,11 +49,11 @@ Network.default.taskClosure = { target in
 
 ```swift
 TestTarget.test(count: 10)
-    .onCache([TestModel].self, { (response) in
+    .onCache([TestModel].self, { (models) in
         
     })
-    .requestObject()
-    .subscribe(onSuccess: { (response) in
+    .request()
+    .subscribe(onSuccess: { (models) in
         
     })
     .disposed(by: disposeBag)
@@ -62,7 +62,7 @@ TestTarget.test(count: 10)
     .cache
     .request()
     .mapObject([TestModel].self)
-    .subscribe(onNext: { (response) in
+    .subscribe(onNext: { (models) in
         
     })
     .disposed(by: disposeBag)
@@ -72,11 +72,11 @@ TestTarget.test(count: 10)
 
 ```swift
 TestTarget.test(count: 10)
-    .request([TestModel].self, atKeyPath: "result")
-    .subscribe(onSuccess: { (response) in
-    
-    })
-    .disposed(by: disposeBag)
+    .request()
+    .mapObject([TestModel].self)
+    .subscribe(onSuccess: { (models) in
+        
+    }).disposed(by: disposeBag)
 ```
 
 ## Author
