@@ -2,16 +2,16 @@
   "name": "RxNetwork",
   "version": "0.5.0",
   "summary": "A swift network library.",
-  "homepage": "https://github.com/Ginxx/RxNetwork",
+  "homepage": "https://github.com/Pircate/RxNetwork",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "gaoX": "gao497868860@163.com"
+    "Pircate": "gao497868860@163.com"
   },
   "source": {
-    "git": "https://github.com/Ginxx/RxNetwork.git",
+    "git": "https://github.com/Pircate/RxNetwork.git",
     "tag": "0.5.0"
   },
   "platforms": {

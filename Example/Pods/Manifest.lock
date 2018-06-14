@@ -1,11 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
   - Cache (5.0.0)
-  - FBSnapshotTestCase (2.1.4):
-    - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
-  - FBSnapshotTestCase/Core (2.1.4)
-  - FBSnapshotTestCase/SwiftSupport (2.1.4):
-    - FBSnapshotTestCase/Core
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -20,7 +15,6 @@ PODS:
 
 DEPENDENCIES:
   - Cache
-  - FBSnapshotTestCase (~> 2.1.4)
   - Moya/RxSwift
   - RxNetwork (from `../`)
 
@@ -28,7 +22,6 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Cache
-    - FBSnapshotTestCase
     - Moya
     - Result
     - RxSwift
@@ -40,12 +33,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Cache: fae4826ba52d7a5d9a3a0ad6fe73e3501a82964f
-  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxNetwork: 11b147cbfa44b17a39b3236cc5f7029830883e04
+  RxNetwork: 4321e9746c55713e3881f41f283237b19cb53672
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
 
-PODFILE CHECKSUM: c21b185a401a8e4c8b6bef23180f0eba486bc1d4
+PODFILE CHECKSUM: 3256acf0770a4cc580000143180e1d024662829a
 
 COCOAPODS: 1.5.3
