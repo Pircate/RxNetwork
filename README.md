@@ -47,6 +47,8 @@ Network.default.taskClosure = { target in
 
 ### Request with cache
 
+#### normal
+
 ```swift
 /*
  {
@@ -54,15 +56,27 @@ Network.default.taskClosure = { target in
  }
  */
 StoryAPI.latest
-    .onCache(StoryListModel.self, { (response) in
+    .onCache(StoryListModel.self, { (model) in
         
     })
     .request()
-    .subscribe(onSuccess: { (response) in
+    .subscribe(onSuccess: { (model) in
         
     })
     .disposed(by: disposeBag)
-// or
+
+StoryAPI.latest
+    .cache
+    .request()
+    .map(StoryListModel.self)
+    .subscribe(onNext: { (model) in
+
+    }).disposed(by: disposeBag)
+```
+
+#### other
+
+```swift
 /*
  {
     "code": 2000,
@@ -70,6 +84,16 @@ StoryAPI.latest
     "result": []
  }
  */
+TestTarget.test(count: 10)
+    .onCache([TestModel].self, { (models) in
+
+    })
+    .requestObject()
+    .subscribe(onSuccess: { (models) in
+
+    })
+    .disposed(by: disposeBag)
+
 TestTarget.test(count: 10)
     .cache
     .request()
