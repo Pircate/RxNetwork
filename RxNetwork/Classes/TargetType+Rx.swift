@@ -21,11 +21,18 @@ public extension TargetType {
     }
     
     func cachedObject<T: Codable>(_ type: T.Type) -> T? {
-        if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"),
+        if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
                                       memoryConfig: MemoryConfig(),
                                       transformer: TransformerFactory.forCodable(ofType: type)),
             let object = try? storage.object(forKey: cachedKey) {
             return object
+        }
+        return nil
+    }
+    
+    var cachedResponse: Response? {
+        if let response = try? Network.storage?.object(forKey: cachedKey) {
+            return response
         }
         return nil
     }

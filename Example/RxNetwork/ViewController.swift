@@ -44,7 +44,8 @@ class ViewController: UIViewController {
         // or
         TestTarget.test(count: 10)
             .cache
-            .requestWithResult([TestModel].self)
+            .request()
+            .mapResult([TestModel].self)
             .subscribe(onNext: { (response) in
                 debugPrint("onNext:", response.first?.name ?? "")
             })

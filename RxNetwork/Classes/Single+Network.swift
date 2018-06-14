@@ -25,12 +25,22 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Codable
     
     public func storeCachedObject(for target: TargetType) -> Single<ElementType> {
         return flatMap { object -> Single<ElementType> in
-            if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkCache"),
+            if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
                                           memoryConfig: MemoryConfig(),
                                           transformer: TransformerFactory.forCodable(ofType: ElementType.self)) {
                 try storage.setObject(object, forKey: target.cachedKey)
             }
             return Single.just(object)
+        }
+    }
+}
+
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    
+    public func storeCachedResponse(for target: TargetType) -> Single<Response> {
+        return flatMap { response -> Single<Response> in
+            try Network.storage?.setObject(response, forKey: target.cachedKey)
+            return Single.just(response)
         }
     }
 }

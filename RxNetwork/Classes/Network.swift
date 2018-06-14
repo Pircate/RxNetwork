@@ -8,6 +8,7 @@
 
 import Moya
 import Result
+import Cache
 
 public let kNetworkTimeoutInterval: TimeInterval = 60
 
@@ -26,6 +27,15 @@ public final class Network {
     public lazy var provider: MoyaProvider<MultiTarget> = {
         MoyaProvider<MultiTarget>(taskClosure: taskClosure, timeoutInterval: timeoutInterval, plugins: plugins)
     }()
+}
+
+public extension Network {
+    
+    static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkResponseCache"),
+                                      memoryConfig: MemoryConfig(),
+                                      transformer: Transformer<Response>(
+                                        toData: { $0.data },
+                                        fromData: { Response(statusCode: 200, data: $0) }))
 }
 
 extension MoyaProvider {
