@@ -13,8 +13,21 @@ import Moya
 extension Network {
     
     enum Error: Swift.Error {
-        case unknown
         case status(code: Int, message: String)
+        
+        var code: Int {
+            switch self {
+            case .status(let code, _):
+                return code
+            }
+        }
+        
+        var message: String {
+            switch self {
+            case .status(_, let message):
+                return message
+            }
+        }
     }
 }
 
@@ -31,43 +44,39 @@ extension Network {
     }
 }
 
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Response {
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
     
-    public func mapResult<T: Codable>(_ type: T.Type,
+    public func mapObject<T: Codable>(_ type: T.Type,
                                       atKeyPath keyPath: String? = nil,
                                       using decoder: JSONDecoder = .init()) -> Single<T> {
-        return flatMap { response -> Single<T> in
-            if let resp = try? response.map(Network.Response<T>.self) {
-                if resp.success {
-                    return Single.just(resp.result)
-                }
-                return Single.error(Network.Error.status(code: resp.code, message: resp.message))
+        return map {
+            guard let response = try? $0.map(Network.Response<T>.self) else {
+                throw MoyaError.jsonMapping($0)
             }
-            return Single.error(MoyaError.jsonMapping(response))
+            if response.success { return response.result }
+            throw Network.Error.status(code: response.code, message: response.message)
         }
     }
 }
 
 extension ObservableType where E == Response {
     
-    public func mapResult<T: Codable>(_ type: T.Type,
+    public func mapObject<T: Codable>(_ type: T.Type,
                                       atKeyPath keyPath: String? = nil,
                                       using decoder: JSONDecoder = .init()) -> Observable<T> {
-        return map { response -> T in
-            if let resp = try? response.map(Network.Response<T>.self) {
-                if resp.success {
-                    return resp.result
-                }
-                throw Network.Error.status(code: resp.code, message: resp.message)
+        return map {
+            guard let response = try? $0.map(Network.Response<T>.self) else {
+                throw MoyaError.jsonMapping($0)
             }
-            throw MoyaError.jsonMapping(response)
+            if response.success { return response.result }
+            throw Network.Error.status(code: response.code, message: response.message)
         }
     }
 }
 
 extension OnCache {
     
-    public func requestWithResult() -> Single<C> {
+    public func requestObject() -> Single<C> {
         return target.request().map(Network.Response<C>.self).map({
             if $0.success { return $0.result }
             throw Network.Error.status(code: $0.code, message: $0.message)
