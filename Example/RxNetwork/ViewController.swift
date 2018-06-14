@@ -36,7 +36,7 @@ class ViewController: UIViewController {
             .onCache([TestModel].self, { (response) in
                 debugPrint("onCache:", response.first?.name ?? "")
             })
-            .requestWithResult([TestModel].self)
+            .requestWithResult()
             .subscribe(onSuccess: { (response) in
                 debugPrint("onSuccess:", response.first?.name ?? "")
             })

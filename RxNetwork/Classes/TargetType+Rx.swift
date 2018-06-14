@@ -31,9 +31,9 @@ public extension TargetType {
     }
     
     func onCache<T: Codable>(_ type: T.Type,
-                             _ closure: (T) -> Void) -> Single<Self> {
+                             _ closure: (T) -> Void) -> OnCache<Self, T> {
         if let object = cachedObject(type) { closure(object) }
-        return Single.just(self)
+        return OnCache(self)
     }
     
     var cache: Observable<Self> {

@@ -80,3 +80,13 @@ extension ObservableType where E: TargetType {
         }
     }
 }
+
+extension OnCache {
+    
+    public func requestWithResult() -> Single<C> {
+        return target.request().map(Network.Response<C>.self).map({
+            if $0.success { return $0.result }
+            throw Network.Error.status(code: $0.code, message: $0.message)
+        }).storeCachedObject(for: target)
+    }
+}
