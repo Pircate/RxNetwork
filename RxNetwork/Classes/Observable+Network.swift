@@ -14,22 +14,10 @@ extension ObservableType where E: TargetType {
     public func request() -> Observable<Response> {
         return flatMap { target -> Observable<Response> in
             let source = target.request().storeCachedResponse(for: target).asObservable()
-            if let response = target.cachedResponse, response.isValid {
+            if let response = target.cachedResponse {
                 return source.startWith(response)
             }
             return source
-        }
-    }
-}
-
-fileprivate extension Response {
-    
-    var isValid: Bool {
-        do {
-            let object = try mapJSON()
-            return JSONSerialization.isValidJSONObject(object)
-        } catch {
-            return false
         }
     }
 }
