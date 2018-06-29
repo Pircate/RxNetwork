@@ -14,6 +14,8 @@ public let kNetworkTimeoutInterval: TimeInterval = 60
 
 public final class Network {
     
+    public var storagePolicyClosure: (Response) -> Bool = { _ in true }
+    
     public var taskClosure: (TargetType) -> Task = { $0.task }
     
     public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval

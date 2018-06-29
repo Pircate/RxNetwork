@@ -28,22 +28,10 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
     
     public func storeCachedResponse(for target: TargetType) -> Single<Response> {
         return map { response -> Response in
-            if response.isValid {
+            if Network.default.storagePolicyClosure(response) {
                 try? Network.storage?.setObject(response, forKey: target.cachedKey)
             }
             return response
-        }
-    }
-}
-
-fileprivate extension Response {
-    
-    var isValid: Bool {
-        do {
-            let object = try mapJSON()
-            return JSONSerialization.isValidJSONObject(object)
-        } catch {
-            return false
         }
     }
 }
