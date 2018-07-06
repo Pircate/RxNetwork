@@ -14,21 +14,33 @@ public let kNetworkTimeoutInterval: TimeInterval = 60
 
 public final class Network {
     
-    public var storagePolicyClosure: (Response) -> Bool = { _ in true }
+    public let provider: MoyaProvider<MultiTarget>
     
-    public var taskClosure: (TargetType) -> Task = { $0.task }
-    
-    public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval
-    
-    public var plugins: [PluginType] = []
-    
-    public static let `default` = Network()
-    
-    public init() {}
-    
-    public lazy var provider: MoyaProvider<MultiTarget> = {
-        MoyaProvider<MultiTarget>(taskClosure: taskClosure, timeoutInterval: timeoutInterval, plugins: plugins)
+    public static let `default`: Network = {
+        Network(configuration: Network.Configuration.default)
     }()
+    
+    public init(configuration: Configuration) {
+        provider = MoyaProvider(configuration: configuration)
+    }
+}
+
+public extension Network {
+    
+    class Configuration {
+        
+        public var taskClosure: (TargetType) -> Task = { $0.task }
+        
+        public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval
+        
+        public var plugins: [PluginType] = []
+        
+        public var storagePolicyClosure: (Response) -> Bool = { _ in true }
+        
+        public static var `default` = Configuration()
+        
+        public init() {}
+    }
 }
 
 public extension Network {
@@ -42,16 +54,14 @@ public extension Network {
 
 extension MoyaProvider {
     
-    public convenience init(taskClosure: @escaping (TargetType) -> Task = { $0.task },
-                            timeoutInterval: TimeInterval = kNetworkTimeoutInterval,
-                            plugins: [PluginType] = []) {
+    public convenience init(configuration: Network.Configuration) {
         self.init(endpointClosure: { (target) -> Endpoint in
-            MoyaProvider.defaultEndpointMapping(for: target).replacing(task: taskClosure(target))
+            MoyaProvider.defaultEndpointMapping(for: target).replacing(task: configuration.taskClosure(target))
         }, requestClosure: { (endpoint, callback) -> Void in
             if var request = try? endpoint.urlRequest() {
-                request.timeoutInterval = timeoutInterval
+                request.timeoutInterval = configuration.timeoutInterval
                 callback(.success(request))
             }
-        }, plugins: plugins)
+        }, plugins: configuration.plugins)
     }
 }
