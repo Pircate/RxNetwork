@@ -24,7 +24,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Respo
     
     public func storeCachedResponse(for target: TargetType) -> Single<Response> {
         return map { response -> Response in
-            if Network.Configuration.default.storagePolicyClosure(response) {
+            if Network.default.configuration.storagePolicyClosure(response) {
                 try? target.storeCachedResponse(response)
             }
             return response

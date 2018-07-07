@@ -15,11 +15,11 @@ public final class Network {
     
     public let provider: MoyaProvider<MultiTarget>
     
-    public static let `default`: Network = {
-        Network(configuration: Network.Configuration.default)
-    }()
+    public var configuration: Configuration = Configuration()
     
-    public init(configuration: Configuration) {
+    public static let `default`: Network = Network()
+    
+    public init() {
         provider = MoyaProvider(configuration: configuration)
     }
 }

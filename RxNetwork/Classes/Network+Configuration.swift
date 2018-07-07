@@ -20,8 +20,6 @@ public extension Network {
         
         public var storagePolicyClosure: (Response) -> Bool = { _ in true }
         
-        public static var `default` = Configuration()
-        
         public init() {}
     }
 }
