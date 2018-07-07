@@ -45,6 +45,17 @@ Network.default.configuration.taskClosure = { target in
 }
 ```
 
+### Request without cache
+
+```swift
+StoryAPI.latest
+    .request()
+    .map(StoryListModel.self)
+    .subscribe(onSuccess: { (model) in
+        
+    }).disposed(by: disposeBag)
+```
+
 ### Request with cache
 
 #### normal
@@ -102,17 +113,6 @@ TestTarget.test(count: 10)
         
     })
     .disposed(by: disposeBag)
-```
-
-### Request without cache
-
-```swift
-TestTarget.test(count: 10)
-    .request()
-    .mapObject([TestModel].self)
-    .subscribe(onSuccess: { (models) in
-        
-    }).disposed(by: disposeBag)
 ```
 
 ## Author
