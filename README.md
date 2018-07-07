@@ -31,9 +31,9 @@ import RxNetwork
 ### Configure
 
 ```swift
-Network.Configuration.default.timeoutInterval = 20
-Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
-Network.Configuration.default.taskClosure = { target in
+Network.default.configuration.timeoutInterval = 20
+Network.default.configuration.plugins = [NetworkIndicatorPlugin()]
+Network.default.configuration.taskClosure = { target in
     // configure common parameters etc.
     switch target.task {
     case let .requestParameters(parameters, encoding):
