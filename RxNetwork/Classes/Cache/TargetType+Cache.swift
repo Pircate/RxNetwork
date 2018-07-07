@@ -18,7 +18,7 @@ public extension TargetType {
     
     func onCache<T: Codable>(_ type: T.Type,
                              _ closure: (T) -> Void) -> OnCache<Self, T> {
-        if let object = cachedObject(type) { closure(object) }
+        if let object = try? cachedObject(type) { closure(object) }
         return OnCache(self)
     }
     
@@ -26,14 +26,11 @@ public extension TargetType {
         return Observable.just(self)
     }
     
-    func cachedObject<T: Codable>(_ type: T.Type) -> T? {
-        if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
-                                      memoryConfig: MemoryConfig(),
-                                      transformer: TransformerFactory.forCodable(ofType: type)),
-            let object = try? storage.object(forKey: cachedKey) {
-            return object
-        }
-        return nil
+    func cachedObject<T: Codable>(_ type: T.Type) throws -> T {
+        let storage = try Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
+                                  memoryConfig: MemoryConfig(),
+                                  transformer: TransformerFactory.forCodable(ofType: type))
+        return try storage.object(forKey: cachedKey)
     }
     
     var cachedResponse: Response? {
@@ -45,8 +42,8 @@ public extension TargetType {
     
     func storeCachedObject<C: Codable>(_ cachedObject: C) throws {
         let storage = try Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
-                                   memoryConfig: MemoryConfig(),
-                                   transformer: TransformerFactory.forCodable(ofType: C.self))
+                                  memoryConfig: MemoryConfig(),
+                                  transformer: TransformerFactory.forCodable(ofType: C.self))
         try storage.setObject(cachedObject, forKey: cachedKey)
     }
     
@@ -76,6 +73,10 @@ extension Network {
     
     public func removeAllCachedResponses() throws {
         try Network.storage?.removeAll()
+    }
+    
+    func removeAllCachedObjects() throws {
+        // TODO: - removeAllCachedObjects
     }
 }
 

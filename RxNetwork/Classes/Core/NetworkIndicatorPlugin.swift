@@ -1,5 +1,5 @@
 //
-//  ActivityIndicatorPlugin.swift
+//  NetworkIndicatorPlugin.swift
 //  RxNetwork
 //
 //  Created by Pircate on 2018/4/17.
