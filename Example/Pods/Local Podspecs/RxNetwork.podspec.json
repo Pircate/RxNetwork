@@ -17,15 +17,30 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "RxNetwork/Classes/**/*",
-  "dependencies": {
-    "Moya/RxSwift": [
-
-    ],
-    "Cache": [
-
-    ]
-  },
   "requires_arc": true,
-  "swift_version": "4.0"
+  "swift_version": "4.0",
+  "default_subspecs": "Core",
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "RxNetwork/Classes/Core",
+      "dependencies": {
+        "Moya/RxSwift": [
+
+        ]
+      }
+    },
+    {
+      "name": "Cache",
+      "source_files": "RxNetwork/Classes/Cache",
+      "dependencies": {
+        "RxNetwork/Core": [
+
+        ],
+        "Cache": [
+
+        ]
+      }
+    }
+  ]
 }

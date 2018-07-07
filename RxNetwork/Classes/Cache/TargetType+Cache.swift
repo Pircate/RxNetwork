@@ -7,8 +7,8 @@
 //
 
 import Moya
-import RxSwift
 import Cache
+import RxSwift
 
 public extension TargetType {
     

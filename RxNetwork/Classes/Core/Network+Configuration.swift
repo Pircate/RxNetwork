@@ -8,6 +8,8 @@
 
 import Moya
 
+public let kNetworkTimeoutInterval: TimeInterval = 60
+
 public extension Network {
     
     class Configuration {

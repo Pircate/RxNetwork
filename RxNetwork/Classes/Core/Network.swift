@@ -9,8 +9,6 @@
 import Moya
 import Result
 
-public let kNetworkTimeoutInterval: TimeInterval = 60
-
 public final class Network {
     
     public static let `default`: Network = Network()

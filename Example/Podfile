@@ -2,7 +2,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'RxNetwork_Example' do
-  pod 'RxNetwork', :path => '../'
+  pod 'RxNetwork/Cache', :path => '../'
   pod 'Moya/RxSwift'
   pod 'Cache'
 
