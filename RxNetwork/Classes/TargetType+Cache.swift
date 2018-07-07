@@ -16,6 +16,16 @@ public extension TargetType {
         return "\(URL(target: self).absoluteString)?\(task.parameters)"
     }
     
+    func onCache<T: Codable>(_ type: T.Type,
+                             _ closure: (T) -> Void) -> OnCache<Self, T> {
+        if let object = cachedObject(type) { closure(object) }
+        return OnCache(self)
+    }
+    
+    var cache: Observable<Self> {
+        return Observable.just(self)
+    }
+    
     func cachedObject<T: Codable>(_ type: T.Type) -> T? {
         if let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
                                       memoryConfig: MemoryConfig(),
@@ -33,24 +43,40 @@ public extension TargetType {
         return nil
     }
     
-    func onCache<T: Codable>(_ type: T.Type,
-                             _ closure: (T) -> Void) -> OnCache<Self, T> {
-        if let object = cachedObject(type) { closure(object) }
-        return OnCache(self)
+    func storeCachedObject<C: Codable>(_ cachedObject: C) throws {
+        let storage = try Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
+                                   memoryConfig: MemoryConfig(),
+                                   transformer: TransformerFactory.forCodable(ofType: C.self))
+        try storage.setObject(cachedObject, forKey: cachedKey)
     }
     
-    var cache: Observable<Self> {
-        return Observable.just(self)
+    func storeCachedResponse(_ cachedResponse: Response) throws {
+        try Network.storage?.setObject(cachedResponse, forKey: cachedKey)
+    }
+    
+    func removeCachedObject<C: Codable>(_ type: C.Type) throws {
+        let storage = try Storage(diskConfig: DiskConfig(name: "RxNetworkObjectCache"),
+                                  memoryConfig: MemoryConfig(),
+                                  transformer: TransformerFactory.forCodable(ofType: type))
+        try storage.removeObject(forKey: cachedKey)
+    }
+    
+    func removeCachedResponse() throws {
+        try Network.storage?.removeObject(forKey: cachedKey)
     }
 }
 
 extension Network {
     
-    static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkResponseCache"),
-                                      memoryConfig: MemoryConfig(),
-                                      transformer: Transformer<Response>(
-                                        toData: { $0.data },
-                                        fromData: { Response(statusCode: 200, data: $0) }))
+    fileprivate static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkResponseCache"),
+                                                  memoryConfig: MemoryConfig(),
+                                                  transformer: Transformer<Response>(
+                                                    toData: { $0.data },
+                                                    fromData: { Response(statusCode: 200, data: $0) }))
+    
+    public func removeAllCachedResponses() throws {
+        try Network.storage?.removeAll()
+    }
 }
 
 fileprivate extension Task {
