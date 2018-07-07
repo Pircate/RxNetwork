@@ -26,6 +26,14 @@ extension Network {
 
 public extension Network.Cache {
     
+    func removeAllCachedData() throws {
+        try removeAllCachedObjects()
+        try removeAllCachedResponses()
+    }
+}
+
+public extension Network.Cache {
+    
     func cachedObject<C: Codable>(_ type: C.Type, for target: TargetType) throws -> C {
         return try Storage<C>().object(forKey: target.cachedKey)
     }
@@ -38,8 +46,8 @@ public extension Network.Cache {
         try Storage<C>().removeObject(forKey: target.cachedKey)
     }
     
-    func removeAllCachedObjects() throws {
-        // TODO: - removeAllCachedObjects
+    private func removeAllCachedObjects() throws {
+        try Storage<String>().removeAll()
     }
 }
 
@@ -57,7 +65,7 @@ public extension Network.Cache {
         try Storage<Response>().removeObject(forKey: target.cachedKey)
     }
     
-    func removeAllCachedResponses() throws {
+    private func removeAllCachedResponses() throws {
         try Storage<Response>().removeAll()
     }
 }
