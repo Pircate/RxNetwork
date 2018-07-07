@@ -47,7 +47,9 @@ Network.Configuration.default.taskClosure = { target in
         return target.task
     }
 }
+
 // or
+
 let configuration = Network.Configuration()
 configuration.timeoutInterval = 20
 configuration.plugins = [NetworkIndicatorPlugin()]
