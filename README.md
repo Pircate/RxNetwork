@@ -123,7 +123,7 @@ TestTarget.test(count: 10)
 
 ```swift
 // You may need configure storage policy when use cache response
-Network.default.configuration.storagePolicyClosure = { response in
+Network.Cache.shared.storagePolicyClosure = { response in
     if let code = try? response.map(Int.self, atKeyPath: "code"), code == 200 {
         return true
     }
