@@ -8,7 +8,6 @@
 
 import Moya
 import Result
-import Cache
 
 public let kNetworkTimeoutInterval: TimeInterval = 60
 
@@ -25,36 +24,9 @@ public final class Network {
     }
 }
 
-public extension Network {
+public extension MoyaProvider {
     
-    class Configuration {
-        
-        public var taskClosure: (TargetType) -> Task = { $0.task }
-        
-        public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval
-        
-        public var plugins: [PluginType] = []
-        
-        public var storagePolicyClosure: (Response) -> Bool = { _ in true }
-        
-        public static var `default` = Configuration()
-        
-        public init() {}
-    }
-}
-
-public extension Network {
-    
-    static let storage = try? Storage(diskConfig: DiskConfig(name: "RxNetworkResponseCache"),
-                                      memoryConfig: MemoryConfig(),
-                                      transformer: Transformer<Response>(
-                                        toData: { $0.data },
-                                        fromData: { Response(statusCode: 200, data: $0) }))
-}
-
-extension MoyaProvider {
-    
-    public convenience init(configuration: Network.Configuration) {
+    convenience init(configuration: Network.Configuration) {
         self.init(endpointClosure: { (target) -> Endpoint in
             MoyaProvider.defaultEndpointMapping(for: target).replacing(task: configuration.taskClosure(target))
         }, requestClosure: { (endpoint, callback) -> Void in
