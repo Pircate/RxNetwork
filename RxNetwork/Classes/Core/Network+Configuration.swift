@@ -20,8 +20,6 @@ public extension Network {
         
         public var plugins: [PluginType] = []
         
-        public var storagePolicyClosure: (Response) -> Bool = { _ in true }
-        
         public init() {}
     }
 }

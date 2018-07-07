@@ -14,7 +14,8 @@ extension ObservableType where E: TargetType {
     public func request() -> Observable<Response> {
         return flatMap { target -> Observable<Response> in
             let source = target.request().storeCachedResponse(for: target).asObservable()
-            if let response = target.cachedResponse, Network.default.configuration.storagePolicyClosure(response) {
+            if let response = try? target.cachedResponse(),
+                Network.Cache.shared.storagePolicyClosure(response) {
                 return source.startWith(response)
             }
             return source
