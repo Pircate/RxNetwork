@@ -32,7 +32,7 @@ pod 'RxNetwork/Cache'
 import RxNetwork
 ```
 
-### Configure
+### Configuration
 
 ```swift
 Network.Configuration.default.timeoutInterval = 20
