@@ -26,7 +26,7 @@ extension Network {
 
 public extension Network.Cache {
     
-    func cachedObject<T: Codable>(_ type: T.Type, for target: TargetType) throws -> T {
+    func cachedObject<C: Codable>(_ type: C.Type, for target: TargetType) throws -> C {
         let storage = try Storage(diskConfig: DiskConfig(name: kNetworkObjectCacheName),
                                   memoryConfig: MemoryConfig(),
                                   transformer: TransformerFactory.forCodable(ofType: type))

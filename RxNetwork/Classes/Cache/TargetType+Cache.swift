@@ -12,13 +12,13 @@ import RxSwift
 
 public extension TargetType {
     
-    func onCache<T: Codable>(_ type: T.Type,
-                             _ closure: (T) -> Void) -> OnCache<Self, T> {
+    func onCache<C: Codable>(_ type: C.Type,
+                             _ closure: (C) -> Void) -> OnCache<Self, C> {
         if let object = try? cachedObject(type) { closure(object) }
         return OnCache(self)
     }
 
-    func cachedObject<T: Codable>(_ type: T.Type) throws -> T {
+    func cachedObject<C: Codable>(_ type: C.Type) throws -> C {
         return try Network.Cache.shared.cachedObject(type, for: self)
     }
     
