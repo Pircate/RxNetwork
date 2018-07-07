@@ -13,13 +13,23 @@ import Moya
 
 class ViewController: UIViewController {
     
+    private lazy var startButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 80, height: 30)
+        button.center = view.center
+        button.backgroundColor = UIColor.blue
+        button.setTitle("Start", for: .normal)
+        button.addTarget(self, action: #selector(startButtonAction), for: .touchUpInside)
+        return button
+    }()
+    
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         Network.Configuration.default.timeoutInterval = 20
-        Network.Configuration.default.plugins = [NetworkIndicatorPlugin(), NetworkLoggerPlugin(verbose: true)]
+        Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
         Network.Configuration.default.taskClosure = { target in
             // configure common parameters etc.
             switch target.task {
@@ -31,10 +41,20 @@ class ViewController: UIViewController {
             }
         }
         
+        view.addSubview(startButton)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    @objc private func startButtonAction() {
+        
         // MARK: - request with cache
         /*
          {
-            "top_stories": []
+         "top_stories": []
          }
          */
         StoryAPI.latest
@@ -57,9 +77,9 @@ class ViewController: UIViewController {
         // or
         /*
          {
-            "code": 2000,
-            "message": "Ok",
-            "result": []
+         "code": 2000,
+         "message": "Ok",
+         "result": []
          }
          */
         TestTarget.test(count: 10)
@@ -89,11 +109,5 @@ class ViewController: UIViewController {
                 debugPrint("without cache:", models.first?.name ?? "")
             }).disposed(by: disposeBag)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 
