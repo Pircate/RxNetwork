@@ -35,9 +35,9 @@ import RxNetwork
 ### Configure
 
 ```swift
-Network.default.configuration.timeoutInterval = 20
-Network.default.configuration.plugins = [NetworkIndicatorPlugin()]
-Network.default.configuration.taskClosure = { target in
+Network.Configuration.default.timeoutInterval = 20
+Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
+Network.Configuration.default.taskClosure = { target in
     // configure common parameters etc.
     switch target.task {
     case let .requestParameters(parameters, encoding):
@@ -47,6 +47,11 @@ Network.default.configuration.taskClosure = { target in
         return target.task
     }
 }
+// or
+let configuration = Network.Configuration()
+configuration.timeoutInterval = 20
+configuration.plugins = [NetworkIndicatorPlugin()]
+Network.Configuration.default = configuration
 ```
 
 ### Request without cache
@@ -124,10 +129,8 @@ TestTarget.test(count: 10)
 ```swift
 // You may need configure storage policy when use cache response
 Network.Cache.shared.storagePolicyClosure = { response in
-    if let code = try? response.map(Int.self, atKeyPath: "code"), code == 200 {
-        return true
-    }
-    return false
+    guard let code = try? response.map(Int.self, atKeyPath: "code") else { return false }
+    return code == 200
 }
 ```
 
