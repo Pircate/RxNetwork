@@ -18,6 +18,10 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'RxNetwork'
+
+# or
+
+pod 'RxNetwork/Cache'
 ```
 
 ## Usage
@@ -85,7 +89,7 @@ StoryAPI.latest
     }).disposed(by: disposeBag)
 ```
 
-#### other
+### other
 
 ```swift
 /*
@@ -113,6 +117,18 @@ TestTarget.test(count: 10)
         
     })
     .disposed(by: disposeBag)
+```
+
+### Notice
+
+```swift
+// You may need configure storage policy when use cache response
+Network.default.configuration.storagePolicyClosure = { response in
+    if let code = try? response.map(Int.self, atKeyPath: "code"), code == 200 {
+        return true
+    }
+    return false
+}
 ```
 
 ## Author
