@@ -18,9 +18,9 @@ extension Network {
         
         public static let shared = Cache()
         
-        private init() {}
-        
         public var storagePolicyClosure: (Response) -> Bool = { _ in true }
+        
+        private init() {}
     }
 }
 

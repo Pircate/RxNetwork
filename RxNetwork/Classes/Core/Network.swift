@@ -12,18 +12,14 @@ import Result
 public final class Network {
     
     public static let `default`: Network = {
-        Network(configuration: Configuration())
+        Network(configuration: Configuration.default)
     }()
+    
+    public let provider: MoyaProvider<MultiTarget>
     
     public init(configuration: Configuration) {
-        self.configuration = configuration
+        provider = MoyaProvider(configuration: configuration)
     }
-    
-    public let configuration: Configuration
-    
-    public private(set) lazy var provider: MoyaProvider<MultiTarget> = {
-        MoyaProvider(configuration: configuration)
-    }()
 }
 
 public extension MoyaProvider {
