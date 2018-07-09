@@ -13,7 +13,7 @@ public struct OnCache<Target: TargetType, C: Codable> {
     
     public let target: Target
     
-    init(_ target: Target) {
+    public init(_ target: Target) {
         self.target = target
     }
     

@@ -9,7 +9,7 @@
 import Moya
 import Result
 
-public final class Network {
+open class Network {
     
     public static let `default`: Network = {
         Network(configuration: Configuration.default)
