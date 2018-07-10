@@ -25,13 +25,25 @@ open class Network {
 public extension MoyaProvider {
     
     convenience init(configuration: Network.Configuration) {
-        self.init(endpointClosure: { (target) -> Endpoint in
+        
+        let endpointClosure = { (target) -> Endpoint in
             MoyaProvider.defaultEndpointMapping(for: target).replacing(task: configuration.taskClosure(target))
-        }, requestClosure: { (endpoint, callback) -> Void in
-            if var request = try? endpoint.urlRequest() {
+        }
+        
+        let requestClosure =  { (endpoint: Endpoint, closure: RequestResultClosure) -> Void in
+            do {
+                var request = try endpoint.urlRequest()
                 request.timeoutInterval = configuration.timeoutInterval
-                callback(.success(request))
+                closure(.success(request))
+            } catch MoyaError.requestMapping(let url) {
+                closure(.failure(.requestMapping(url)))
+            } catch MoyaError.parameterEncoding(let error) {
+                closure(.failure(.parameterEncoding(error)))
+            } catch {
+                closure(.failure(.underlying(error, nil)))
             }
-        }, plugins: configuration.plugins)
+        }
+        
+        self.init(endpointClosure: endpointClosure, requestClosure: requestClosure, plugins: configuration.plugins)
     }
 }
