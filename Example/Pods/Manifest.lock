@@ -8,10 +8,10 @@ PODS:
     - Moya/Core
     - RxSwift (~> 4.0)
   - Result (3.2.4)
-  - RxNetwork/Cache (0.8.1):
+  - RxNetwork/Cache (0.8.2):
     - Cache
     - RxNetwork/Core
-  - RxNetwork/Core (0.8.1):
+  - RxNetwork/Core (0.8.2):
     - Moya/RxSwift
   - RxSwift (4.2.0)
 
@@ -37,7 +37,7 @@ SPEC CHECKSUMS:
   Cache: fae4826ba52d7a5d9a3a0ad6fe73e3501a82964f
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxNetwork: 9196f0d0dd2e2f74cffaa727a0aab0460cdc31a2
+  RxNetwork: d88006a8b8c312a0ef9fb83ab9c274f805201900
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
 
 PODFILE CHECKSUM: 69396f5bb883fafa92672f02b0d1315893fd12b6
