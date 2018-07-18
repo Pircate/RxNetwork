@@ -82,8 +82,8 @@ class ViewController: UIViewController {
          "result": []
          }
          */
-        TestTarget.test(count: 10)
-            .onCache([TestModel].self, { (models) in
+        BannerAPI.test(count: 10)
+            .onCache([BannerModel].self, { (models) in
                 
             })
             .requestObject()
@@ -92,19 +92,19 @@ class ViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        TestTarget.test(count: 10)
+        BannerAPI.test(count: 10)
             .cache
             .request()
-            .mapObject([TestModel].self)
+            .mapObject([BannerModel].self)
             .subscribe(onNext: { (models) in
                 debugPrint("onNext:", models.first?.name ?? "")
             })
             .disposed(by: disposeBag)
         
         // MARK: - request without cache
-        TestTarget.test(count: 10)
+        BannerAPI.test(count: 10)
             .request()
-            .mapObject([TestModel].self)
+            .mapObject([BannerModel].self)
             .subscribe(onSuccess: { (models) in
                 debugPrint("without cache:", models.first?.name ?? "")
             }).disposed(by: disposeBag)

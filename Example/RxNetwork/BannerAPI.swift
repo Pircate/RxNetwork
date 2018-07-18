@@ -1,5 +1,5 @@
 //
-//  TestTarget.swift
+//  BannerAPI.swift
 //  RxNetwork
 //
 //  Created by GorXion on 2018/4/17.
@@ -8,11 +8,11 @@
 
 import Moya
 
-enum TestTarget {
+enum BannerAPI {
     case test(count: Int)
 }
 
-extension TestTarget: TargetType {
+extension BannerAPI: TargetType {
     
     var baseURL: URL {
         return URL(string: "https://app01.chengtay.com:82/")!

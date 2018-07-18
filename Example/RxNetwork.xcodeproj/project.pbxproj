@@ -17,8 +17,8 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		B505B57620A2F39F00A9E11A /* CleanJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505B57520A2F39F00A9E11A /* CleanJSON.swift */; };
-		B5187D7320884D3F003B24D6 /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7120884D3E003B24D6 /* TestModel.swift */; };
-		B5187D7420884D3F003B24D6 /* TestTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7220884D3F003B24D6 /* TestTarget.swift */; };
+		B5187D7320884D3F003B24D6 /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7120884D3E003B24D6 /* BannerModel.swift */; };
+		B5187D7420884D3F003B24D6 /* BannerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5187D7220884D3F003B24D6 /* BannerAPI.swift */; };
 		B5ADC1F720BBE7F400E8695E /* Network+Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ADC1F620BBE7F400E8695E /* Network+Demo.swift */; };
 		B5CE5F2D20FED6570004C109 /* Response+Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CE5F2C20FED6570004C109 /* Response+Demo.swift */; };
 		B5CE5F2F20FED6850004C109 /* RxNetwork+Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CE5F2E20FED6850004C109 /* RxNetwork+Demo.swift */; };
@@ -58,8 +58,8 @@
 		8AD42A2669525F34979BB615 /* Pods-RxNetwork_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxNetwork_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxNetwork_Example/Pods-RxNetwork_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		913AD06F59B17CF9F8D39222 /* Pods_RxNetwork_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxNetwork_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B505B57520A2F39F00A9E11A /* CleanJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanJSON.swift; sourceTree = "<group>"; };
-		B5187D7120884D3E003B24D6 /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
-		B5187D7220884D3F003B24D6 /* TestTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTarget.swift; sourceTree = "<group>"; };
+		B5187D7120884D3E003B24D6 /* BannerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
+		B5187D7220884D3F003B24D6 /* BannerAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAPI.swift; sourceTree = "<group>"; };
 		B5ADC1F620BBE7F400E8695E /* Network+Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Network+Demo.swift"; sourceTree = "<group>"; };
 		B5CE5F2C20FED6570004C109 /* Response+Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Response+Demo.swift"; sourceTree = "<group>"; };
 		B5CE5F2E20FED6850004C109 /* RxNetwork+Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RxNetwork+Demo.swift"; sourceTree = "<group>"; };
@@ -120,13 +120,11 @@
 		607FACD21AFB9204008FA782 /* Example for RxNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				B5CE5F3420FEDF670004C109 /* Story */,
+				B5CE5F3320FEDF2C0004C109 /* Banner */,
 				B5CE5F3220FED7E60004C109 /* Network */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				B5187D7120884D3E003B24D6 /* TestModel.swift */,
-				330FDE6320D2AC7E005673ED /* StoryAPI.swift */,
-				330FDE6520D2AC9B005673ED /* StoryModel.swift */,
-				B5187D7220884D3F003B24D6 /* TestTarget.swift */,
 				B505B57520A2F39F00A9E11A /* CleanJSON.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -181,6 +179,24 @@
 				B5CE5F2E20FED6850004C109 /* RxNetwork+Demo.swift */,
 			);
 			name = Network;
+			sourceTree = "<group>";
+		};
+		B5CE5F3320FEDF2C0004C109 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				B5187D7120884D3E003B24D6 /* BannerModel.swift */,
+				B5187D7220884D3F003B24D6 /* BannerAPI.swift */,
+			);
+			name = Banner;
+			sourceTree = "<group>";
+		};
+		B5CE5F3420FEDF670004C109 /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				330FDE6320D2AC7E005673ED /* StoryAPI.swift */,
+				330FDE6520D2AC9B005673ED /* StoryModel.swift */,
+			);
+			name = Story;
 			sourceTree = "<group>";
 		};
 		D184A90DB79CF8E560641495 /* Pods */ = {
@@ -367,11 +383,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5187D7320884D3F003B24D6 /* TestModel.swift in Sources */,
+				B5187D7320884D3F003B24D6 /* BannerModel.swift in Sources */,
 				B505B57620A2F39F00A9E11A /* CleanJSON.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				B5CE5F2F20FED6850004C109 /* RxNetwork+Demo.swift in Sources */,
-				B5187D7420884D3F003B24D6 /* TestTarget.swift in Sources */,
+				B5187D7420884D3F003B24D6 /* BannerAPI.swift in Sources */,
 				330FDE6420D2AC7F005673ED /* StoryAPI.swift in Sources */,
 				B5ADC1F720BBE7F400E8695E /* Network+Demo.swift in Sources */,
 				B5CE5F3120FED7A20004C109 /* OnCache+Demo.swift in Sources */,
