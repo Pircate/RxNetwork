@@ -26,7 +26,7 @@ public final class NetworkIndicatorPlugin: PluginType {
         NetworkIndicatorPlugin.numberOfRequests += 1
     }
     
-    public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
+    public func didReceive(_ result: Result<Moya.Response, MoyaError>, target: TargetType) {
         NetworkIndicatorPlugin.numberOfRequests -= 1
     }
 }

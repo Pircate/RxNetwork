@@ -20,10 +20,10 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType: Codable
     }
 }
 
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Moya.Response {
     
-    public func storeCachedResponse(for target: TargetType) -> Single<Response> {
-        return map { response -> Response in
+    public func storeCachedResponse(for target: TargetType) -> Single<ElementType> {
+        return map { response -> ElementType in
             if Network.Cache.shared.storagePolicyClosure(response) {
                 try? target.storeCachedResponse(response)
             }

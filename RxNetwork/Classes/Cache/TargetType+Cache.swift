@@ -37,11 +37,11 @@ public extension TargetType {
         return Observable.just(self)
     }
     
-    func cachedResponse() throws -> Response {
+    func cachedResponse() throws -> Moya.Response {
         return try Network.Cache.shared.cachedResponse(for: self)
     }
     
-    func storeCachedResponse(_ cachedResponse: Response) throws {
+    func storeCachedResponse(_ cachedResponse: Moya.Response) throws {
         try Network.Cache.shared.storeCachedResponse(cachedResponse, for: self)
     }
     

@@ -74,7 +74,9 @@ class ViewController: UIViewController {
             .subscribe(onNext: { (model) in
                 
             }).disposed(by: disposeBag)
+        
         // or
+        
         /*
          {
          "code": 2000,

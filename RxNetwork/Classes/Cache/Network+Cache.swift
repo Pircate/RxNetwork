@@ -18,7 +18,7 @@ extension Network {
         
         public static let shared = Cache()
         
-        public var storagePolicyClosure: (Response) -> Bool = { _ in true }
+        public var storagePolicyClosure: (Moya.Response) -> Bool = { _ in true }
         
         private init() {}
     }
@@ -53,20 +53,20 @@ public extension Network.Cache {
 
 public extension Network.Cache {
     
-    func cachedResponse(for target: TargetType) throws -> Response {
-        return try Storage<Response>().object(forKey: target.cachedKey)
+    func cachedResponse(for target: TargetType) throws -> Moya.Response {
+        return try Storage<Moya.Response>().object(forKey: target.cachedKey)
     }
     
-    func storeCachedResponse(_ cachedResponse: Response, for target: TargetType) throws {
-        try Storage<Response>().setObject(cachedResponse, forKey: target.cachedKey)
+    func storeCachedResponse(_ cachedResponse: Moya.Response, for target: TargetType) throws {
+        try Storage<Moya.Response>().setObject(cachedResponse, forKey: target.cachedKey)
     }
     
     func removeCachedResponse(for target: TargetType) throws {
-        try Storage<Response>().removeObject(forKey: target.cachedKey)
+        try Storage<Moya.Response>().removeObject(forKey: target.cachedKey)
     }
     
     private func removeAllCachedResponses() throws {
-        try Storage<Response>().removeAll()
+        try Storage<Moya.Response>().removeAll()
     }
 }
 
@@ -79,13 +79,13 @@ fileprivate extension Storage where T: Codable {
     }
 }
 
-fileprivate extension Storage where T == Response {
+fileprivate extension Storage where T == Moya.Response {
     
     convenience init() throws {
        try self.init(diskConfig: DiskConfig(name: kNetworkResponseCacheName),
                      memoryConfig: MemoryConfig(),
-                     transformer: Transformer<Response>(
+                     transformer: Transformer<T>(
                         toData: { $0.data },
-                        fromData: { Response(statusCode: 200, data: $0) }))
+                        fromData: { T(statusCode: 200, data: $0) }))
     }
 }
