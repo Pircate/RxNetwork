@@ -2,7 +2,7 @@
 //  CleanJSON.swift
 //  CleanJSON
 //
-//  Created by GorXion on 2018/5/3.
+//  Created by Pircate on 2018/5/3.
 //
 
 import Foundation
