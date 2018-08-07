@@ -1,0 +1,11 @@
+framework module RxNetwork {
+  umbrella header "RxNetwork-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module RxNetwork.Swift {
+    header "RxNetwork-Swift.h"
+    requires objc
+}

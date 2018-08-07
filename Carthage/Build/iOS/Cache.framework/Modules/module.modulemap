@@ -1,0 +1,11 @@
+framework module Cache {
+  umbrella header "Cache-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module Cache.Swift {
+    header "Cache-Swift.h"
+    requires objc
+}
