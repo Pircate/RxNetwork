@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C8FA60468F13C47F992BACDCB22EC360"
+               BlueprintIdentifier = "8197169CE69D46C837D85F5619AB2FAC"
                BuildableName = "Pods_RxNetwork_Tests.framework"
                BlueprintName = "Pods-RxNetwork_Tests"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C8FA60468F13C47F992BACDCB22EC360"
+            BlueprintIdentifier = "8197169CE69D46C837D85F5619AB2FAC"
             BuildableName = "Pods_RxNetwork_Tests.framework"
             BlueprintName = "Pods-RxNetwork_Tests"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C8FA60468F13C47F992BACDCB22EC360"
-            BuildableName = "Pods_RxNetwork_Tests.framework"
-            BlueprintName = "Pods-RxNetwork_Tests"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

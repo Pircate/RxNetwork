@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A28F35D5FC031C9DDBAEF7907883DBE2"
-               BuildableName = "Moya.framework"
-               BlueprintName = "Moya"
+               BlueprintIdentifier = "AFD1AA8CE71018393E20C7FEAB5C8ABF"
+               BuildableName = "Cache.framework"
+               BlueprintName = "Cache"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A28F35D5FC031C9DDBAEF7907883DBE2"
-            BuildableName = "Moya.framework"
-            BlueprintName = "Moya"
+            BlueprintIdentifier = "AFD1AA8CE71018393E20C7FEAB5C8ABF"
+            BuildableName = "Cache.framework"
+            BlueprintName = "Cache"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A28F35D5FC031C9DDBAEF7907883DBE2"
-            BuildableName = "Moya.framework"
-            BlueprintName = "Moya"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

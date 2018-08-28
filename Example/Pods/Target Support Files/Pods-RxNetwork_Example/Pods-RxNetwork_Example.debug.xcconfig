@@ -3,8 +3,8 @@ FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Cache/Cache.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/RxNetwork/RxNetwork.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/RxSwift/RxSwift.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "Cache" -framework "Moya" -framework "Result" -framework "RxNetwork" -framework "RxSwift"
-OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "Cache" -framework "Foundation" -framework "Moya" -framework "Result" -framework "RxNetwork" -framework "RxSwift"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
