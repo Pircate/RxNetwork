@@ -26,7 +26,7 @@ public extension MoyaProvider {
     
     convenience init(configuration: Network.Configuration) {
         
-        let endpointClosure = { (target) -> Endpoint in
+        let endpointClosure = { target -> Endpoint in
             MoyaProvider.defaultEndpointMapping(for: target).replacing(task: configuration.taskClosure(target))
         }
         

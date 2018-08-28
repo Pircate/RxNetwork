@@ -9,9 +9,6 @@
 import Cache
 import Moya
 
-private let kNetworkObjectCacheName = "RxNetworkObjectCache"
-private let kNetworkResponseCacheName = "RxNetworkResponseCache"
-
 extension Network {
     
     public class Cache {
@@ -70,10 +67,20 @@ public extension Network.Cache {
     }
 }
 
+fileprivate extension Network {
+    
+    struct DiskStorageName {
+        
+        static let object = "com.pircate.github.cache.object"
+        
+        static let response = "com.pircate.github.cache.response"
+    }
+}
+
 fileprivate extension Storage where T: Codable {
     
     convenience init() throws {
-        try self.init(diskConfig: DiskConfig(name: kNetworkObjectCacheName),
+        try self.init(diskConfig: DiskConfig(name: Network.DiskStorageName.object),
                       memoryConfig: MemoryConfig(),
                       transformer: TransformerFactory.forCodable(ofType: T.self))
     }
@@ -82,7 +89,7 @@ fileprivate extension Storage where T: Codable {
 fileprivate extension Storage where T == Moya.Response {
     
     convenience init() throws {
-       try self.init(diskConfig: DiskConfig(name: kNetworkResponseCacheName),
+       try self.init(diskConfig: DiskConfig(name: Network.DiskStorageName.response),
                      memoryConfig: MemoryConfig(),
                      transformer: Transformer<T>(
                         toData: { $0.data },
