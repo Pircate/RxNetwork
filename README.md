@@ -14,15 +14,22 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-RxNetwork is available through [CocoaPods](http://cocoapods.org). To install
+RxNetwork is available through [CocoaPods](http://cocoapods.org) or [Carthage](https://github.com/Carthage/Carthage). To install
 it, simply add the following line to your Podfile:
+
+### CocoaPods
 
 ```ruby
 pod 'RxNetwork'
 
-# or
+or
 
 pod 'RxNetwork/Cache'
+```
+
+### Carthage
+```ruby
+github "Pircate/RxNetwork"
 ```
 
 ## Usage
