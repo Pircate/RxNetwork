@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AFD1AA8CE71018393E20C7FEAB5C8ABF"
+               BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
                BuildableName = "Cache.framework"
                BlueprintName = "Cache"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AFD1AA8CE71018393E20C7FEAB5C8ABF"
+            BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
             BuildableName = "Cache.framework"
             BlueprintName = "Cache"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AFD1AA8CE71018393E20C7FEAB5C8ABF"
+            BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
             BuildableName = "Cache.framework"
             BlueprintName = "Cache"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -1,6 +1,6 @@
 PODS:
-  - Alamofire (4.7.2)
-  - Cache (5.0.0)
+  - Alamofire (4.7.3)
+  - Cache (5.1.0)
   - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
@@ -33,8 +33,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  Cache: fae4826ba52d7a5d9a3a0ad6fe73e3501a82964f
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  Cache: 7737c595aae7d94c7c0feca2c887288624e3b07e
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxNetwork: 7bc28f67e92bfa6efe33a4962193a3150d7e33dc
