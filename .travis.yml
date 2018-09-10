@@ -6,8 +6,8 @@ osx_image: xcode9.4.1
 language: swift
 cache: cocoapods
 podfile: Example/Podfile
-# before_install:
-# - gem install cocoapods # Since Travis is not always on latest version
+before_install:
+- gem install cocoapods --pre # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
 # - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/RxNetwork.xcworkspace -scheme RxNetwork-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
