@@ -3,7 +3,7 @@ use_frameworks!
 
 target 'RxNetwork_Example' do
   pod 'RxNetwork/Cache', :path => '../'
-  pod 'Moya/RxSwift'
+  pod 'Moya/RxSwift', '12.0.0-beta.1'
   pod 'Cache'
 
   target 'RxNetwork_Tests' do
