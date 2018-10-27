@@ -48,7 +48,7 @@ public extension Response {
         - statusCodes: The range of acceptable status codes.
      - throws: `MoyaError.statusCode` when others are encountered.
     */
-    public func filter<R: RangeExpression>(statusCodes: R) throws -> Response where R.Bound == Int {
+    public func filter(statusCodes: ClosedRange<Int>) throws -> Response {
         guard statusCodes.contains(statusCode) else {
             throw MoyaError.statusCode(self)
         }

@@ -2,13 +2,12 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode9.4.1
+osx_image: xcode10
 language: swift
 cache: cocoapods
 podfile: Example/Podfile
 # before_install:
-# - gem install cocoapods --pre # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+- gem install cocoapods --pre # Since Travis is not always on latest version
+- pod install --project-directory=Example
 script:
-# - set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/RxNetwork.xcworkspace -scheme RxNetwork-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint --allow-warnings
+- pod lib lint --allow-warnings --no-clean

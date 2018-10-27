@@ -26,7 +26,7 @@
       "source_files": "RxNetwork/Classes/Core",
       "dependencies": {
         "Moya/RxSwift": [
-          "12.0.0-beta.1"
+
         ]
       }
     },
