@@ -1,6 +1,6 @@
 {
   "name": "RxNetwork",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "summary": "A swift network library based on Moya/RxSwift/Cache.",
   "homepage": "https://github.com/Pircate/RxNetwork",
   "license": {
@@ -12,13 +12,13 @@
   },
   "source": {
     "git": "https://github.com/Pircate/RxNetwork.git",
-    "tag": "0.8.6"
+    "tag": "0.8.7"
   },
   "platforms": {
     "ios": "9.0"
   },
   "requires_arc": true,
-  "swift_version": "4.0",
+  "swift_version": "4.2",
   "default_subspecs": "Core",
   "subspecs": [
     {
