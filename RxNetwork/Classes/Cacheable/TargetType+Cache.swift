@@ -13,7 +13,7 @@ public extension TargetType where Self: Cacheable, Self: CachingKey {
     
     func onCache<C: Codable>(
         _ type: C.Type,
-        at keyPath: String? = nil,
+        atKeyPath keyPath: String? = nil,
         using decoder: JSONDecoder = .init(),
         _ closure: (C) -> Void)
         -> OnCache<Self, C>

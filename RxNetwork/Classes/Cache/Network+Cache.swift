@@ -21,6 +21,13 @@ extension Network {
     }
 }
 
+public extension Network.Cache {
+    
+    func removeAllCachedData() throws {
+        try Storage<Moya.Response>().removeAll()
+    }
+}
+
 extension CacheableTargetType {
     
     public var allowsStorage: (Response) -> Bool {
