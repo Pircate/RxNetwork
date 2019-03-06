@@ -9,7 +9,7 @@
 import Moya
 import RxSwift
 
-public struct OnCache<Target: TargetType, C: Codable> where Target: Cacheable, Target: CachingKey {
+public struct OnCache<Target: TargetType, C: Codable> where Target: Cacheable {
     
     public let target: Target
     

@@ -13,7 +13,7 @@ extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Moya.
     
     public func storeCachedResponse<Target>(for target: Target)
         -> Single<ElementType>
-        where Target: TargetType, Target: Cacheable, Target: CachingKey {
+        where Target: TargetType, Target: Cacheable {
         return map { response -> ElementType in
             if target.allowsStorage(response) {
                 try? target.storeCachedResponse(response)

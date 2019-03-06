@@ -9,7 +9,7 @@
 import Moya
 import RxSwift
 
-public extension TargetType where Self: Cacheable, Self: CachingKey {
+public extension TargetType where Self: Cacheable {
     
     func onCache<C: Codable>(
         _ type: C.Type,
@@ -27,7 +27,7 @@ public extension TargetType where Self: Cacheable, Self: CachingKey {
     }
 }
 
-public extension TargetType where Self: Cacheable, Self: CachingKey {
+public extension TargetType where Self: Cacheable {
     
     var cache: Observable<Self> {
         return Observable.just(self)

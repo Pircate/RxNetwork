@@ -8,7 +8,7 @@
 
 import Moya
 
-public protocol CacheableTargetType: TargetType, Cacheable, CachingKey {
+public protocol CacheableTargetType: TargetType, Cacheable {
 }
 
 extension CacheableTargetType {

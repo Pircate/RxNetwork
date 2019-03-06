@@ -8,7 +8,9 @@
 
 import Moya
 
-public protocol Cacheable {
+public typealias Cacheable = Storable & CachingKey
+
+public protocol Storable {
     
     var allowsStorage: (Moya.Response) -> Bool { get }
     

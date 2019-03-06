@@ -2,7 +2,8 @@ platform :ios, '9.0'
 use_frameworks!
 
 target 'RxNetwork_Example' do
-  pod 'RxNetwork/Cache', :path => '../'
+  pod 'RxNetwork/Cacheable', :path => '../'
+  pod 'Cache'
 
   target 'RxNetwork_Tests' do
     inherit! :search_paths

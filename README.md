@@ -24,9 +24,13 @@ it, simply add the following line to your Podfile or Cartfile:
 
 ```ruby
 pod 'RxNetwork'
-
-or
-
+```
+自己实现缓存
+```ruby
+pod 'RxNetwork/Cacheable'
+```
+默认基于 [Cache](https://github.com/onmyway133/Cache) 实现缓存
+```ruby
 pod 'RxNetwork/Cache'
 ```
 
