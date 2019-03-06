@@ -27,7 +27,8 @@ public extension MoyaProvider {
     convenience init(configuration: Network.Configuration) {
         
         let endpointClosure = { target -> Endpoint in
-            MoyaProvider.defaultEndpointMapping(for: target).replacing(task: configuration.taskClosure(target))
+            MoyaProvider.defaultEndpointMapping(for: target)
+                .replacing(task: configuration.taskClosure(target))
         }
         
         let requestClosure =  { (endpoint: Endpoint, closure: RequestResultClosure) -> Void in
@@ -44,6 +45,8 @@ public extension MoyaProvider {
             }
         }
         
-        self.init(endpointClosure: endpointClosure, requestClosure: requestClosure, plugins: configuration.plugins)
+        self.init(endpointClosure: endpointClosure,
+                  requestClosure: requestClosure,
+                  plugins: configuration.plugins)
     }
 }

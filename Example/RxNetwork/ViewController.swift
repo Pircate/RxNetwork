@@ -10,6 +10,7 @@ import UIKit
 import RxNetwork
 import RxSwift
 import Moya
+import Alamofire
 
 class ViewController: UIViewController {
     
@@ -42,11 +43,6 @@ class ViewController: UIViewController {
         }
         
         view.addSubview(startButton)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     @objc private func startButtonAction() {

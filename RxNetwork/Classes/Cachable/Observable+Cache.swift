@@ -9,15 +9,19 @@
 import RxSwift
 import Moya
 
-extension ObservableType where E: TargetType {
+extension ObservableType where E: TargetType, E: Cacheable, E: CachingKey {
     
     public func request() -> Observable<Moya.Response> {
         return flatMap { target -> Observable<Moya.Response> in
-            let source = target.request().storeCachedResponse(for: target).asObservable()
+            let source = target.request()
+                .storeCachedResponse(for: target)
+                .asObservable()
+            
             if let response = try? target.cachedResponse(),
-                Network.Cache.shared.storagePolicyClosure(response) {
+                target.allowsStorage(response) {
                 return source.startWith(response)
             }
+            
             return source
         }
     }

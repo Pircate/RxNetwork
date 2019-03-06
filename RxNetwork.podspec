@@ -18,9 +18,14 @@ Pod::Spec.new do |s|
       ss.dependency 'Moya/RxSwift'
   end
   
+  s.subspec 'Cachable' do |ss|
+    ss.source_files = 'RxNetwork/Classes/Cachable'
+    ss.dependency 'RxNetwork/Core'
+  end
+  
   s.subspec 'Cache' do |ss|
       ss.source_files = 'RxNetwork/Classes/Cache'
-      ss.dependency 'RxNetwork/Core'
+      ss.dependency 'RxNetwork/Cachable'
       ss.dependency 'Cache'
   end
   

@@ -7,12 +7,14 @@
 //
 
 import Moya
+import RxNetwork
 
 enum StoryAPI {
     case latest
 }
 
-extension StoryAPI: TargetType {
+extension StoryAPI: CacheableTargetType {
+    
     var baseURL: URL {
         return URL(string: "https://news-at.zhihu.com/api")!
     }

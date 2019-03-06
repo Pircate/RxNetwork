@@ -7,12 +7,13 @@
 //
 
 import Moya
+import RxNetwork
 
 enum BannerAPI {
     case test(count: Int)
 }
 
-extension BannerAPI: TargetType {
+extension BannerAPI: CacheableTargetType {
     
     var baseURL: URL {
         return URL(string: "https://app01.chengtay.com:82/")!

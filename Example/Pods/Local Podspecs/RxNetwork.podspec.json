@@ -31,10 +31,19 @@
       }
     },
     {
+      "name": "Cachable",
+      "source_files": "RxNetwork/Classes/Cachable",
+      "dependencies": {
+        "RxNetwork/Core": [
+
+        ]
+      }
+    },
+    {
       "name": "Cache",
       "source_files": "RxNetwork/Classes/Cache",
       "dependencies": {
-        "RxNetwork/Core": [
+        "RxNetwork/Cachable": [
 
         ],
         "Cache": [
