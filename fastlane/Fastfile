@@ -25,9 +25,9 @@ platform :ios do
     	path: "RxNetwork.podspec", 
     	version_number: target_version)
     git_add(path: "./RxNetwork.podspec")
-    git_commit(path: "./RxNetwork.podspec", message: "release #{target_version} version")
+    git_commit(path: ["./RxNetwork.podspec", "./fastlane"], message: "release #{target_version} version")
     add_git_tag tag: target_version
     push_to_git_remote
-    pod_push
+    pod_push(allow_warnings: true)
   end
 end
