@@ -22,7 +22,3 @@ public protocol Storable {
     
     func removeAllCachedResponses() throws
 }
-
-public protocol CachingKey {
-    var stringValue: String { get }
-}

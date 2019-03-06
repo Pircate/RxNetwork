@@ -13,7 +13,7 @@ enum StoryAPI {
     case latest
 }
 
-extension StoryAPI: CacheableTargetType {
+extension StoryAPI: TargetType, Cacheable {
     
     var baseURL: URL {
         return URL(string: "https://news-at.zhihu.com/api")!

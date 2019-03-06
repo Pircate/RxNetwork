@@ -8,7 +8,6 @@
 
 import Cache
 import Moya
-import RxNetwork
 
 extension Network {
     
@@ -29,7 +28,7 @@ public extension Network.Cache {
     }
 }
 
-extension CacheableTargetType {
+extension Storable where Self: TargetType {
     
     public var allowsStorage: (Response) -> Bool {
         return Network.Cache.shared.storagePolicyClosure

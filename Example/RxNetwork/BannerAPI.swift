@@ -13,7 +13,7 @@ enum BannerAPI {
     case test(count: Int)
 }
 
-extension BannerAPI: CacheableTargetType {
+extension BannerAPI: TargetType, Cacheable {
     
     var baseURL: URL {
         return URL(string: "https://app01.chengtay.com:82/")!

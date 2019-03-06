@@ -84,8 +84,6 @@ StoryAPI.latest
 
 ### Request with cache
 
-#### normal
-
 ```swift
 /*
  {
@@ -110,8 +108,6 @@ StoryAPI.latest
 
     }).disposed(by: disposeBag)
 ```
-
-### other
 
 ```swift
 /*
@@ -139,6 +135,16 @@ TestTarget.test(count: 10)
         
     })
     .disposed(by: disposeBag)
+```
+
+### Cacheable
+
+需要缓存请遵循 `Cacheable` 协议
+
+```swift
+enum API: TargetType, Cacheable {
+    case api
+}
 ```
 
 ### Notice

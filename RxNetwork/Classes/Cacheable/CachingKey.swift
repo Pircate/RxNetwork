@@ -1,5 +1,5 @@
 // 
-//  CacheableTargetType.swift
+//  CachingKey.swift
 //  RxNetwork
 //
 //  Created by Pircate(gao497868860@gmail.com) on 2019/3/6
@@ -8,10 +8,12 @@
 
 import Moya
 
-public protocol CacheableTargetType: TargetType, Cacheable {
+public protocol CachingKey {
+    
+    var stringValue: String { get }
 }
 
-extension CacheableTargetType {
+extension CachingKey where Self: TargetType {
     
     public var stringValue: String {
         return cachedKey
