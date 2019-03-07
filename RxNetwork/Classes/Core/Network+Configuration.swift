@@ -16,7 +16,9 @@ public extension Network {
         
         public static var `default`: Configuration = Configuration()
         
-        public var taskClosure: (TargetType) -> Task = { $0.task }
+        public var addingHeaders: (TargetType) -> [String: String] = { _ in [:] }
+        
+        public var replacingTask: (TargetType) -> Task = { $0.task }
         
         public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval
         

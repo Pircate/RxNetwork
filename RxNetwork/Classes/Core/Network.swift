@@ -28,7 +28,8 @@ public extension MoyaProvider {
         
         let endpointClosure = { target -> Endpoint in
             MoyaProvider.defaultEndpointMapping(for: target)
-                .replacing(task: configuration.taskClosure(target))
+                .adding(newHTTPHeaderFields: configuration.addingHeaders(target))
+                .replacing(task: configuration.replacingTask(target))
         }
         
         let requestClosure =  { (endpoint: Endpoint, closure: RequestResultClosure) -> Void in

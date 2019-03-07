@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         
         Network.Configuration.default.timeoutInterval = 20
         Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
-        Network.Configuration.default.taskClosure = { target in
+        Network.Configuration.default.replacingTask = { target in
             // configure common parameters etc.
             switch target.task {
             case let .requestParameters(parameters, encoding):
@@ -40,6 +40,11 @@ class ViewController: UIViewController {
             default:
                 return target.task
             }
+        }
+        
+        Network.Configuration.default.addingHeaders = { target in
+            if target.path.contains("user") { return ["userId": "123456789"] }
+            return [:]
         }
         
         view.addSubview(startButton)
