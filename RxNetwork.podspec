@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.subspec 'Cache' do |ss|
       ss.source_files = 'RxNetwork/Classes/Cache'
       ss.dependency 'RxNetwork/Cacheable'
-      ss.dependency 'Cache'
+      ss.dependency 'Cache', '5.2.0'
   end
   
 end

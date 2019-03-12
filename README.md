@@ -13,7 +13,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Requirements
 
 * iOS 9.0+
-* Swift 4
+* Swift 4.2
 
 ## Installation
 
@@ -139,7 +139,7 @@ TestTarget.test(count: 10)
 
 ### Cacheable
 
-需要缓存请遵循 `Cacheable` 协议
+为 `target` 提供缓存功能，请遵循 `Cacheable` 协议
 
 ```swift
 enum API: TargetType, Cacheable {
