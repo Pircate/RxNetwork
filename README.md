@@ -4,7 +4,7 @@
 [![Version](https://img.shields.io/cocoapods/v/RxNetwork.svg?style=flat)](http://cocoapods.org/pods/RxNetwork)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/RxNetwork.svg?style=flat)](http://cocoapods.org/pods/RxNetwork)
-![iOS 9.0+](https://img.shields.io/badge/iOS-9.0%2B-blue.svg)
+[![Platform](https://img.shields.io/cocoapods/p/RxNetwork.svg?style=flat)](https://cocoapods.org/pods/RxNetwork)
 
 ## Example
 
@@ -12,7 +12,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
-* iOS 9.0+
+* iOS 9.0
 * Swift 4.2
 
 ## Installation
@@ -52,7 +52,7 @@ import RxNetwork
 ```swift
 Network.Configuration.default.timeoutInterval = 20
 Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
-Network.Configuration.default.taskClosure = { target in
+Network.Configuration.default.replacingTask = { target in
     // configure common parameters etc.
     switch target.task {
     case let .requestParameters(parameters, encoding):
