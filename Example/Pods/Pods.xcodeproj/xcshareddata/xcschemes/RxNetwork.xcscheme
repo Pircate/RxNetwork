@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B63A1ED93A83A6D2D06287E616EE7900"
+               BlueprintIdentifier = "045F970D8042EC014BA1BCBAD66DD876"
                BuildableName = "RxNetwork.framework"
                BlueprintName = "RxNetwork"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B63A1ED93A83A6D2D06287E616EE7900"
+            BlueprintIdentifier = "045F970D8042EC014BA1BCBAD66DD876"
             BuildableName = "RxNetwork.framework"
             BlueprintName = "RxNetwork"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B63A1ED93A83A6D2D06287E616EE7900"
+            BlueprintIdentifier = "045F970D8042EC014BA1BCBAD66DD876"
             BuildableName = "RxNetwork.framework"
             BlueprintName = "RxNetwork"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.8.1)
+  - Alamofire (4.8.2)
   - Cache (5.2.0)
   - Moya/Core (12.0.1):
     - Alamofire (~> 4.1)
@@ -8,7 +8,7 @@ PODS:
     - Moya/Core
     - RxSwift (~> 4.0)
   - Result (4.1.0)
-  - RxAtomic (4.4.1)
+  - RxAtomic (4.4.2)
   - RxNetwork/Cache (0.9.3):
     - Cache (= 5.2.0)
     - RxNetwork/Cacheable
@@ -16,8 +16,8 @@ PODS:
     - RxNetwork/Core
   - RxNetwork/Core (0.9.3):
     - Moya/RxSwift
-  - RxSwift (4.4.1):
-    - RxAtomic (~> 4.4)
+  - RxSwift (4.4.2):
+    - RxAtomic (>= 4.4.2, ~> 4.4)
 
 DEPENDENCIES:
   - RxNetwork/Cache (from `../`)
@@ -36,13 +36,13 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Cache: 807c5d86d01a177f06ede9865add3aea269bbfd4
   Moya: cf730b3cd9e005401ef37a85143aa141a12fd38f
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  RxAtomic: f8d6adc1ccb87a767811269e4875887bc74dbf19
-  RxNetwork: 61ed6dd6a0d043e319de7063c094e802058b44ec
-  RxSwift: 92fcf68dfef21f3e2ab1965363d9e7b3d787597e
+  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxNetwork: 0796ececebcb57b61a9b454972a2c63de72e977a
+  RxSwift: 74c29b693c8e42b0f64400e8b06564575742d649
 
 PODFILE CHECKSUM: 7fbd8f0765849d51699f2ff6c1620ce540e630ef
 

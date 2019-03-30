@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1000"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
+               BlueprintIdentifier = "9513DC9A6C5DA07EDB2094920BC9EE79"
                BuildableName = "Cache.framework"
                BlueprintName = "Cache"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
+            BlueprintIdentifier = "9513DC9A6C5DA07EDB2094920BC9EE79"
             BuildableName = "Cache.framework"
             BlueprintName = "Cache"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6F51DB10451C0C260C13D3D4D44F18A6"
+            BlueprintIdentifier = "9513DC9A6C5DA07EDB2094920BC9EE79"
             BuildableName = "Cache.framework"
             BlueprintName = "Cache"
             ReferencedContainer = "container:Pods.xcodeproj">
