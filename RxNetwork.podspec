@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source                = { :git => 'https://github.com/Pircate/RxNetwork.git', :tag => s.version.to_s }
   s.ios.deployment_target = '9.0'
   s.requires_arc          = true
-  s.swift_version         = '4.2'
+  s.swift_version         = '5.0'
   s.default_subspec       = 'Core'
   
   s.subspec 'Core' do |ss|
@@ -22,9 +22,4 @@ Pod::Spec.new do |s|
     ss.dependency 'RxNetwork/Core'
   end
   
-  s.subspec 'Cache' do |ss|
-      ss.source_files = 'RxNetwork/Classes/Cache'
-      ss.dependency 'RxNetwork/Cacheable'
-      ss.dependency 'Cache', '5.2.0'
-  end
 end

@@ -10,8 +10,7 @@
 #endif
 #endif
 
-#import "RxAtomic.h"
 
-FOUNDATION_EXPORT double RxAtomicVersionNumber;
-FOUNDATION_EXPORT const unsigned char RxAtomicVersionString[];
+FOUNDATION_EXPORT double CleanJSONVersionNumber;
+FOUNDATION_EXPORT const unsigned char CleanJSONVersionString[];
 

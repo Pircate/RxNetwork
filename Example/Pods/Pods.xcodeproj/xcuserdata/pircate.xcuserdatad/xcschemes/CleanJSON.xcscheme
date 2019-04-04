@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3B2E405FB76A0E213CE57985A423DED6"
-               BuildableName = "RxAtomic.framework"
-               BlueprintName = "RxAtomic"
+               BlueprintIdentifier = "300904838EEDDC3BB8242817D8F97CB6"
+               BuildableName = "CleanJSON.framework"
+               BlueprintName = "CleanJSON"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3B2E405FB76A0E213CE57985A423DED6"
-            BuildableName = "RxAtomic.framework"
-            BlueprintName = "RxAtomic"
+            BlueprintIdentifier = "300904838EEDDC3BB8242817D8F97CB6"
+            BuildableName = "CleanJSON.framework"
+            BlueprintName = "CleanJSON"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

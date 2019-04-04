@@ -11,6 +11,7 @@ import RxNetwork
 import RxSwift
 import Moya
 import Alamofire
+import CleanJSON
 
 class ViewController: UIViewController {
     
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
          }
          */
         StoryAPI.latest
-            .onCache(StoryListModel.self, { (model) in
+            .onCache(StoryListModel.self, using: CleanJSONDecoder(), { (model) in
                 debugPrint("onCache:", model.topStories.first?.title ?? "")
             })
             .request()
@@ -71,7 +72,7 @@ class ViewController: UIViewController {
         StoryAPI.latest
             .cache
             .request()
-            .map(StoryListModel.self)
+            .map(StoryListModel.self, using: CleanJSONDecoder())
             .subscribe(onNext: { (model) in
                 
             }).disposed(by: disposeBag)

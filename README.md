@@ -5,6 +5,7 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/cocoapods/l/RxNetwork.svg?style=flat)](http://cocoapods.org/pods/RxNetwork)
 [![Platform](https://img.shields.io/cocoapods/p/RxNetwork.svg?style=flat)](https://cocoapods.org/pods/RxNetwork)
+[![codebeat badge](https://codebeat.co/badges/03811ea6-f2a0-46fe-b7b3-24e56d00c1b0)](https://codebeat.co/projects/github-com-pircate-rxnetwork-master)
 
 ## Example
 
@@ -13,7 +14,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## Requirements
 
 * iOS 9.0
-* Swift 4.2
+* Swift 5.0
 
 ## Installation
 
@@ -28,10 +29,6 @@ pod 'RxNetwork'
 自己实现缓存
 ```ruby
 pod 'RxNetwork/Cacheable'
-```
-默认基于 [Cache](https://github.com/onmyway133/Cache) 实现缓存
-```ruby
-pod 'RxNetwork/Cache'
 ```
 
 #### Cartfile
@@ -144,16 +141,6 @@ TestTarget.test(count: 10)
 ```swift
 enum API: TargetType, Cacheable {
     case api
-}
-```
-
-### Notice
-
-```swift
-// You may need configure storage policy when use cache response
-Network.Cache.shared.storagePolicyClosure = { response in
-    guard let code = try? response.map(Int.self, atKeyPath: "code") else { return false }
-    return code == 200
 }
 ```
 
