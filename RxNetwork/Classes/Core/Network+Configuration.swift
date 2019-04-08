@@ -8,8 +8,6 @@
 
 import Moya
 
-public let kNetworkTimeoutInterval: TimeInterval = 60
-
 public extension Network {
     
     class Configuration {
@@ -20,7 +18,7 @@ public extension Network {
         
         public var replacingTask: (TargetType) -> Task = { $0.task }
         
-        public var timeoutInterval: TimeInterval = kNetworkTimeoutInterval
+        public var timeoutInterval: TimeInterval = 60
         
         public var plugins: [PluginType] = []
         
