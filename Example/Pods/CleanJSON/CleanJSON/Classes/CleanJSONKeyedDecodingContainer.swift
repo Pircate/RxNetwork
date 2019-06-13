@@ -1,5 +1,5 @@
-// 
-//  _CleanJSONKeyedDecodingContainer.swift
+//
+//  CleanJSONKeyedDecodingContainer.swift
 //  CleanJSON
 //
 //  Created by Pircate(swifter.dev@gmail.com) on 2018/10/10
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerProtocol {
+struct CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerProtocol {
     
     typealias Key = K
     
@@ -39,7 +39,7 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
             }, uniquingKeysWith: { (first, _) in first })
         case .custom(let converter):
             self.container = Dictionary(container.map {
-                key, value in (converter(decoder.codingPath + [_CleanJSONKey(stringValue: key, intValue: nil)]).stringValue, value)
+                key, value in (converter(decoder.codingPath + [CleanJSONKey(stringValue: key, intValue: nil)]).stringValue, value)
             }, uniquingKeysWith: { (first, _) in first })
         @unknown default:
             self.container = container
@@ -407,19 +407,23 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
             case .throw:
                 throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
             case .useDefaultValue:
-                return try decoder.decodeUsingDefaultValue()
+                decoder.codingPath.append(key)
+                defer { decoder.codingPath.removeLast() }
+                return try decoder.decodeAsDefaultValue()
             }
         }
         
         decoder.codingPath.append(key)
         defer { decoder.codingPath.removeLast() }
         
-        guard let value = try decoder.unbox(entry, as: type) else {
+        let decodeObject = { (decoder: _CleanJSONDecoder) -> T in
+            if let value = try decoder.unbox(entry, as: type) { return value }
+            
             switch decoder.options.valueNotFoundDecodingStrategy {
             case .throw:
                 throw DecodingError.Keyed.valueNotFound(type, codingPath: decoder.codingPath)
             case .useDefaultValue:
-                return try decoder.decodeUsingDefaultValue()
+                return try decoder.decodeAsDefaultValue()
             case .custom:
                 decoder.storage.push(container: entry)
                 defer { decoder.storage.popContainer() }
@@ -427,7 +431,29 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
             }
         }
         
-        return value
+        let decodeJSONString = { (decoder: _CleanJSONDecoder) -> T in
+            if let _ = String.defaultValue as? T { return try decodeObject(decoder) }
+            
+            if let string = try decoder.unbox(entry, as: String.self),
+                let object = string.decode(to: type, options: decoder.options) {
+                return object
+            }
+            
+            return try decodeObject(decoder)
+        }
+        
+        switch decoder.options.jsonStringDecodingStrategy {
+        case .containsKeys(let keys):
+            guard !keys.isEmpty else { return try decodeObject(decoder) }
+            
+            guard keys.contains(where: { $0.stringValue == key.stringValue }) else {
+                return try decodeObject(decoder)
+            }
+            
+            return try decodeJSONString(decoder)
+        case .all:
+            return try decodeJSONString(decoder)
+        }
     }
     
     public func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> {
@@ -460,10 +486,10 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
     
     private func nestedContainer<NestedKey>(wrapping dictionary: [String: Any] = [:])
         -> KeyedDecodingContainer<NestedKey> {
-        let container = _CleanJSONKeyedDecodingContainer<NestedKey>(
-            referencing: decoder,
-            wrapping: dictionary)
-        return KeyedDecodingContainer(container)
+            let container = CleanJSONKeyedDecodingContainer<NestedKey>(
+                referencing: decoder,
+                wrapping: dictionary)
+            return KeyedDecodingContainer(container)
     }
     
     public func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
@@ -475,7 +501,7 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
             case .throw:
                 throw DecodingError.Nested.keyNotFound(key, codingPath: codingPath, isUnkeyed: true)
             case .useEmptyContainer:
-                return _CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: [])
+                return CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: [])
             }
         }
         
@@ -486,11 +512,11 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
                     at: self.codingPath,
                     expectation: [Any].self, reality: value)
             case .useEmptyContainer:
-                return _CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: [])
+                return CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: [])
             }
         }
         
-        return _CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: array)
+        return CleanJSONUnkeyedDecodingContainer(referencing: self.decoder, wrapping: array)
     }
     
     private func _superDecoder(forKey key: CodingKey) throws -> Decoder {
@@ -502,11 +528,242 @@ struct _CleanJSONKeyedDecodingContainer<K : CodingKey>: KeyedDecodingContainerPr
     }
     
     public func superDecoder() throws -> Decoder {
-        return try _superDecoder(forKey: _CleanJSONKey.super)
+        return try _superDecoder(forKey: CleanJSONKey.super)
     }
     
     public func superDecoder(forKey key: Key) throws -> Decoder {
         return try _superDecoder(forKey: key)
+    }
+}
+
+extension CleanJSONKeyedDecodingContainer {
+    
+    func decodeIfPresent(_ type: Bool.Type, forKey key: K) throws -> Bool? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Int.Type, forKey key: K) throws -> Int? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Int8.Type, forKey key: K) throws -> Int8? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Int16.Type, forKey key: K) throws -> Int16? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Int32.Type, forKey key: K) throws -> Int32? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Int64.Type, forKey key: K) throws -> Int64? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: UInt.Type, forKey key: K) throws -> UInt? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: UInt8.Type, forKey key: K) throws -> UInt8? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: UInt16.Type, forKey key: K) throws -> UInt16? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: UInt32.Type, forKey key: K) throws -> UInt32? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: UInt64.Type, forKey key: K) throws -> UInt64? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Float.Type, forKey key: K) throws -> Float? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: Double.Type, forKey key: K) throws -> Double? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent(_ type: String.Type, forKey key: K) throws -> String? {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if let value = try decoder.unbox(entry, as: type) { return value }
+        
+        switch decoder.options.valueNotFoundDecodingStrategy {
+        case .throw:
+            throw DecodingError.Keyed.keyNotFound(key, codingPath: decoder.codingPath)
+        case .useDefaultValue:
+            return nil
+        case .custom(let adapter):
+            return try adapter.adaptIfPresent(decoder)
+        }
+    }
+    
+    func decodeIfPresent<T>(_ type: T.Type, forKey key: K) throws -> T? where T : Decodable {
+        guard contains(key), let entry = container[key.stringValue] else { return nil }
+        
+        if type == Date.self || type == NSDate.self {
+            return try decoder.decodeIfPresent(entry, as: Date.self, forKey: key) as? T
+        } else if type == Data.self || type == NSData.self {
+            return try decoder.decodeIfPresent(entry, as: Data.self, forKey: key) as? T
+        } else if type == URL.self || type == NSURL.self {
+            return try decoder.decodeIfPresent(entry, as: URL.self, forKey: key) as? T
+        } else if type == Decimal.self || type == NSDecimalNumber.self {
+            return try decoder.decodeIfPresent(entry, as: Decimal.self, forKey: key) as? T
+        }
+        
+        if try decodeNil(forKey: key) { return nil }
+        
+        return try decoder.unbox(entry, as: type)
     }
 }
 
@@ -531,7 +788,7 @@ private extension CleanJSONDecoder.KeyDecodingStrategy {
         let leadingUnderscoreRange = stringKey.startIndex..<firstNonUnderscore
         let trailingUnderscoreRange = stringKey.index(after: lastNonUnderscore)..<stringKey.endIndex
         
-        var components = stringKey[keyRange].split(separator: "_")
+        let components = stringKey[keyRange].split(separator: "_")
         let joinedString : String
         if components.count == 1 {
             // No underscores in key, leave the word as is - maybe already camel cased
@@ -558,7 +815,7 @@ private extension CleanJSONDecoder.KeyDecodingStrategy {
     }
 }
 
-private extension _CleanJSONKeyedDecodingContainer {
+private extension CleanJSONKeyedDecodingContainer {
     
     func decodeIfKeyNotFound<T>(_ key: Key) throws -> T where T: Decodable, T: Defaultable {
         switch decoder.options.keyNotFoundDecodingStrategy {
@@ -570,131 +827,21 @@ private extension _CleanJSONKeyedDecodingContainer {
     }
 }
 
-extension _CleanJSONDecoder {
+private extension String {
     
-    func decodeUsingDefaultValue<T: Decodable>() throws -> T {
-        if let array = [] as? T {
-            return array
-        } else if let string = String.defaultValue as? T {
-            return string
-        } else if let bool = Bool.defaultValue as? T {
-            return bool
-        } else if let int = Int.defaultValue as? T {
-            return int
-        }else if let double = Double.defaultValue as? T {
-            return double
-        } else if let date = Date.defaultValue as? T {
-            return date
-        } else if let decimal = Decimal.defaultValue as? T {
-            return decimal
-        } else if let object = try? unbox("{}", as: T.self) {
-            return object
-        }
+    func decode<T: Decodable>(to type: T.Type, options: CleanJSONDecoder.Options) -> T? {
+        guard hasPrefix("{") || hasPrefix("[") else { return nil }
         
-        let context = DecodingError.Context(
-            codingPath: codingPath,
-            debugDescription: "Key: <\(codingPath)> cannot be decoded")
-        throw DecodingError.dataCorrupted(context)
-    }
-}
-
-extension _CleanJSONKeyedDecodingContainer {
-    
-    func decodeIfPresent(_ type: Bool.Type, forKey key: K) throws -> Bool? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
+        guard let data = data(using: .utf8),
+            let topLevel = try? JSONSerialization.jsonObject(with: data) else { return nil }
         
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Int.Type, forKey key: K) throws -> Int? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
+        let decoder = _CleanJSONDecoder(referencing: topLevel, options: options)
+        #if swift(<5)
+        guard let obj = try? decoder.unbox(topLevel, as: type) else { return nil }
         
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Int8.Type, forKey key: K) throws -> Int8? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Int16.Type, forKey key: K) throws -> Int16? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Int32.Type, forKey key: K) throws -> Int32? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Int64.Type, forKey key: K) throws -> Int64? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: UInt.Type, forKey key: K) throws -> UInt? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: UInt8.Type, forKey key: K) throws -> UInt8? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: UInt16.Type, forKey key: K) throws -> UInt16? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: UInt32.Type, forKey key: K) throws -> UInt32? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: UInt64.Type, forKey key: K) throws -> UInt64? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Float.Type, forKey key: K) throws -> Float? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent(_ type: Double.Type, forKey key: K) throws -> Double? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-
-    func decodeIfPresent(_ type: String.Type, forKey key: K) throws -> String? {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    func decodeIfPresent<T>(_ type: T.Type, forKey key: K) throws -> T? where T : Decodable {
-        if try keyOrValueNotFount(forKey: key) { return nil }
-        
-        return try decoder.unbox(container[key.stringValue] as Any, as: type)
-    }
-    
-    private func keyOrValueNotFount(forKey key: K) throws -> Bool {
-        guard contains(key) else { return true }
-        
-        if try decodeNil(forKey: key) { return true }
-        
-        return false
+        return obj
+        #else
+        return try? decoder.unbox(topLevel, as: type)
+        #endif
     }
 }

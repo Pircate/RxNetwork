@@ -98,6 +98,21 @@ extension Date: Defaultable {
     static var defaultValue: Date {
         return Date(timeIntervalSinceReferenceDate: 0)
     }
+    
+    static func defaultValue(for strategy: JSONDecoder.DateDecodingStrategy) -> Date {
+        switch strategy {
+        case .secondsSince1970, .millisecondsSince1970:
+            return Date(timeIntervalSince1970: 0)
+        default:
+            return defaultValue
+        }
+    }
+}
+
+extension Data: Defaultable {
+    static var defaultValue: Data {
+        return Data()
+    }
 }
 
 extension Decimal: Defaultable {

@@ -13,6 +13,10 @@ import Moya
 import Alamofire
 import CleanJSON
 
+protocol Retryable {
+    var retry: Bool { get }
+}
+
 class ViewController: UIViewController {
     
     private lazy var startButton: UIButton = {
@@ -106,8 +110,8 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // MARK: - request without cache
-        BannerAPI.test(count: 10)
-            .request()
+        BannerAPI.request(.test(count: 10))()
+        BannerAPI.test(count: 10).request()
             .mapObject([BannerModel].self)
             .subscribe(onSuccess: { (models) in
                 debugPrint("without cache:", models.first?.name ?? "")

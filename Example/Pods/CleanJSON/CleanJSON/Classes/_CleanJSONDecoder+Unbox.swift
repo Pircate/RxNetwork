@@ -290,9 +290,7 @@ extension _CleanJSONDecoder {
     func unbox(_ value: Any, as type: String.Type) throws -> String? {
         guard !(value is NSNull) else { return nil }
         
-        guard let string = value as? String else {
-            return nil
-        }
+        guard let string = value as? String else { return nil }
         
         return string
     }
@@ -332,18 +330,15 @@ extension _CleanJSONDecoder {
             
         case .formatted(let formatter):
             guard let string = try self.unbox(value, as: String.self) else { return nil }
-            guard let date = formatter.date(from: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(
-                    codingPath: self.codingPath,
-                    debugDescription: "Date string does not match format expected by formatter."))
-            }
             
-            return date
+            return formatter.date(from: string)
             
         case .custom(let closure):
             self.storage.push(container: value)
             defer { self.storage.popContainer() }
+            
             return try closure(self)
+            
         @unknown default:
             self.storage.push(container: value)
             defer { self.storage.popContainer() }
@@ -363,17 +358,9 @@ extension _CleanJSONDecoder {
             return try Data(from: self)
             
         case .base64:
-            guard let string = value as? String else {
-                throw DecodingError._typeMismatch(
-                    at: self.codingPath,
-                    expectation: type, reality: value)
-            }
+            guard let string = value as? String else { return nil }
             
-            guard let data = Data(base64Encoded: string) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(
-                    codingPath: self.codingPath,
-                    debugDescription: "Encountered Data is not valid Base64."))
-            }
+            guard let data = Data(base64Encoded: string) else { return nil }
             
             return data
             
@@ -386,6 +373,12 @@ extension _CleanJSONDecoder {
             defer { self.storage.popContainer() }
             return try Data(from: self)
         }
+    }
+    
+    func unbox(_ value: Any, as type: URL.Type) throws -> URL? {
+        guard let string = try unbox(value, as: String.self) else { return nil }
+        
+        return URL(string: string)
     }
     
     func unbox(_ value: Any, as type: Decimal.Type) throws -> Decimal? {
@@ -404,17 +397,13 @@ extension _CleanJSONDecoder {
     func unbox<T>(_ value: Any, as type: _JSONStringDictionaryDecodableMarker.Type) throws -> T? {
         guard !(value is NSNull) else { return nil }
         
+        guard let dict = value as? NSDictionary else { return nil }
+        
         var result = [String : Any]()
-        guard let dict = value as? NSDictionary else {
-            throw DecodingError._typeMismatch(
-                at: self.codingPath,
-                expectation: type,
-                reality: value)
-        }
         let elementType = type.elementType
         for (key, value) in dict {
             let key = key as! String
-            self.codingPath.append(_CleanJSONKey(stringValue: key, intValue: nil))
+            self.codingPath.append(CleanJSONKey(stringValue: key, intValue: nil))
             defer { self.codingPath.removeLast() }
             
             result[key] = try unbox_(value, as: elementType)
@@ -433,16 +422,7 @@ extension _CleanJSONDecoder {
         } else if type == Data.self || type == NSData.self {
             return try self.unbox(value, as: Data.self)
         } else if type == URL.self || type == NSURL.self {
-            guard let urlString = try self.unbox(value, as: String.self) else {
-                return nil
-            }
-            
-            guard let url = URL(string: urlString) else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(
-                    codingPath: self.codingPath,
-                    debugDescription: "Invalid URL string."))
-            }
-            return url
+            return try unbox(value, as: URL.self)
         } else if type == Decimal.self || type == NSDecimalNumber.self {
             return try self.unbox(value, as: Decimal.self)
         } else if let stringKeyedDictType = type as? _JSONStringDictionaryDecodableMarker.Type {

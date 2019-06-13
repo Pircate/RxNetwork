@@ -200,6 +200,8 @@ extension _CleanJSONDecoder : SingleValueDecodingContainer {
     public func decode<T : Decodable>(_ type: T.Type) throws -> T {
         if type == Date.self || type == NSDate.self {
             return try decode(as: Date.self) as! T
+        } else if type == Data.self || type == NSData.self {
+            return try decode(as: Data.self) as! T
         } else if type == Decimal.self || type == NSDecimalNumber.self {
             return try decode(as: Decimal.self) as! T
         }
@@ -210,37 +212,7 @@ extension _CleanJSONDecoder : SingleValueDecodingContainer {
         case .throw:
             throw DecodingError.Keyed.valueNotFound(type, codingPath: codingPath)
         case .useDefaultValue, .custom:
-            return try decodeUsingDefaultValue()
+            return try decodeAsDefaultValue()
         }
-    }
-    
-    private func decode(as type: Date.Type) throws -> Date {
-        guard let date = try unbox(storage.topContainer, as: type) else {
-            switch options.valueNotFoundDecodingStrategy {
-            case .throw:
-                throw DecodingError.Keyed.valueNotFound(type, codingPath: codingPath)
-            case .useDefaultValue:
-                return Date.defaultValue
-            case .custom(let adapter):
-                return try adapter.adapt(self)
-            }
-        }
-        
-        return date
-    }
-    
-    private func decode(as type: Decimal.Type) throws -> Decimal {
-        guard let decimal = try unbox(storage.topContainer, as: type) else {
-            switch options.valueNotFoundDecodingStrategy {
-            case .throw:
-                throw DecodingError.Keyed.valueNotFound(type, codingPath: codingPath)
-            case .useDefaultValue:
-                return Decimal.defaultValue
-            case .custom(let adapter):
-                return try adapter.adapt(self)
-            }
-        }
-        
-        return decimal
     }
 }
