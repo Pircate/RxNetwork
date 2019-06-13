@@ -15,7 +15,7 @@
     "tag": "0.10.0"
   },
   "platforms": {
-    "ios": "9.0"
+    "ios": "10.0"
   },
   "requires_arc": true,
   "swift_versions": "5.0",
@@ -26,7 +26,7 @@
       "source_files": "RxNetwork/Classes/Core",
       "dependencies": {
         "Moya/RxSwift": [
-
+          "14.0.0-alpha.1"
         ]
       }
     },

@@ -9,12 +9,12 @@
 import RxSwift
 import Moya
 
-extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Moya.Response {
+extension PrimitiveSequence where Trait == SingleTrait, Element == Moya.Response {
     
     public func storeCachedResponse<Target>(for target: Target)
-        -> Single<ElementType>
+        -> Single<Element>
         where Target: TargetType, Target: Cacheable {
-        return map { response -> ElementType in
+        return map { response -> Element in
             if target.allowsStorage(response) {
                 try? target.storeCachedResponse(response)
             }

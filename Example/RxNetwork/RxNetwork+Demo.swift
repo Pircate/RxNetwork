@@ -9,14 +9,14 @@
 import Moya
 import RxSwift
 
-public extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+public extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
     func mapObject<T: Codable>(_ type: T.Type) -> Single<T> {
         return map { try $0.mapObject(type) }
     }
 }
 
-public extension ObservableType where E == Response {
+public extension ObservableType where Element == Response {
     
     func mapObject<T: Codable>(_ type: T.Type) -> Observable<T> {
         return map { try $0.mapObject(type) }
