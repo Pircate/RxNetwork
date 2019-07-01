@@ -26,7 +26,7 @@ it, simply add the following line to your Podfile or Cartfile:
 ```ruby
 pod 'RxNetwork'
 ```
-自己实现缓存
+缓存协议
 ```ruby
 pod 'RxNetwork/Cacheable'
 ```
@@ -66,6 +66,27 @@ let configuration = Network.Configuration()
 configuration.timeoutInterval = 20
 configuration.plugins = [NetworkIndicatorPlugin()]
 Network.Configuration.default = configuration
+```
+
+### Allow storage strategy
+
+确保缓存的数据是正确的 JSON 格式，否则解析数据的时候会失败导致序列抛出异常。
+
+如下，仅当 code 为 200 时返回的数据才是正确的 JSON 格式。
+
+```
+extension Storable where Self: TargetType {
+    
+    public var allowsStorage: (Response) -> Bool {
+        return {
+            do {
+                return try $0.mapCode() == 200
+            } catch {
+                return false
+            }
+        }
+    }
+}
 ```
 
 ### Request without cache
