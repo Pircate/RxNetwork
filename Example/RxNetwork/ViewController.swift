@@ -110,7 +110,6 @@ class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         // MARK: - request without cache
-        BannerAPI.request(.test(count: 10))()
         BannerAPI.test(count: 10).request()
             .mapObject([BannerModel].self)
             .subscribe(onSuccess: { (models) in

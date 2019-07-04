@@ -14,6 +14,9 @@ enum StoryAPI {
 }
 
 extension StoryAPI: TargetType, Cacheable {
+    var expiry: Expiry {
+        return .never
+    }
     
     var baseURL: URL {
         return URL(string: "https://news-at.zhihu.com/api")!

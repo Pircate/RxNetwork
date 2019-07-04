@@ -1,6 +1,6 @@
 {
   "name": "RxNetwork",
-  "version": "0.10.0",
+  "version": "0.11.0-beta",
   "summary": "A swift network library based on Moya/RxSwift.",
   "homepage": "https://github.com/Pircate/RxNetwork",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/Pircate/RxNetwork.git",
-    "tag": "0.10.0"
+    "tag": "0.11.0-beta"
   },
   "platforms": {
     "ios": "10.0"

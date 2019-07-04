@@ -14,6 +14,9 @@ enum BannerAPI {
 }
 
 extension BannerAPI: TargetType, Cacheable {
+    var expiry: Expiry {
+        return .never
+    }
     
     var baseURL: URL {
         return URL(string: "https://app01.chengtay.com:82/")!

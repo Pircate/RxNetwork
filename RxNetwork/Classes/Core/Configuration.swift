@@ -1,5 +1,5 @@
 //
-//  Network+Configuration.swift
+//  Configuration.swift
 //  RxNetwork
 //
 //  Created by Pircate(swifter.dev@gmail.com) on 2018/7/7.

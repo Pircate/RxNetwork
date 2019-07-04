@@ -34,14 +34,24 @@ public extension TargetType where Self: Cacheable {
     }
     
     func cachedResponse() throws -> Moya.Response {
-        return try cachedResponse(for: self)
+        let expiry = try self.expiry(for: self)
+        
+        guard expiry.isExpired else {
+            return try cachedResponse(for: self)
+        }
+        
+        throw ExpiryError.expired(Expired(date: expiry.date))
     }
     
     func storeCachedResponse(_ cachedResponse: Moya.Response) throws {
         try storeCachedResponse(cachedResponse, for: self)
+        
+        update(expiry: expiry, for: self)
     }
     
     func removeCachedResponse() throws {
         try removeCachedResponse(for: self)
+        
+        removeExpiry(for: self)
     }
 }
