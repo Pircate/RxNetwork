@@ -4,7 +4,7 @@ use_frameworks!
 install! 'cocoapods', :disable_input_output_paths => true
 
 target 'RxNetwork_Example' do
-  pod 'RxNetwork/Cache', :path => '../'
+  pod 'RxNetwork/Cacheable', :path => '../'
   
   pod 'CleanJSON'
 

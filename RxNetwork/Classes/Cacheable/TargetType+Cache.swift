@@ -8,6 +8,16 @@
 
 import Moya
 import RxSwift
+import Storable
+
+public typealias Cacheable = Storable & CachingKey & Expirable
+
+public extension Expirable {
+    
+    var expiry: Expiry {
+        return .never
+    }
+}
 
 public extension TargetType where Self: Cacheable, Self.ResponseType == Moya.Response {
     
@@ -41,7 +51,7 @@ public extension TargetType where Self: Cacheable, Self.ResponseType == Moya.Res
             return Response(statusCode: response.statusCode, data: response.data)
         }
         
-        throw Expiry.Error.expired(Expiry.Expired(date: expiry.date))
+        throw Expiry.Error.expired(expiry.date)
     }
     
     func storeCachedResponse(_ cachedResponse: Moya.Response) throws {

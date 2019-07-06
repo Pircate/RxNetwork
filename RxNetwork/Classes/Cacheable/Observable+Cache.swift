@@ -8,6 +8,7 @@
 
 import RxSwift
 import Moya
+import Storable
 
 extension ObservableType
 where Element: TargetType, Element: Cacheable, Element.ResponseType == Moya.Response {

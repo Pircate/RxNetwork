@@ -8,6 +8,7 @@
 
 import RxSwift
 import Moya
+import Storable
 
 extension PrimitiveSequence where Trait == SingleTrait, Element == Moya.Response {
     

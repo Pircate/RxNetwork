@@ -28,7 +28,7 @@ pod 'RxNetwork'
 ```
 缓存
 ```ruby
-pod 'RxNetwork/Cache'
+pod 'RxNetwork/Cacheable'
 ```
 
 #### Cartfile
@@ -162,10 +162,8 @@ TestTarget.test(count: 10)
 ```swift
 enum API: TargetType, Cacheable {
     case api
-}
-
+    
 // 设置缓存过期时间
-extension API: Expirable {
     var expiry: Expiry {
         return .never
     }

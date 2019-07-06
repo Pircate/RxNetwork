@@ -1,12 +1,10 @@
 // 
-//  Cacheable.swift
-//  RxNetwork
+//  Storable.swift
+//  Storable
 //
 //  Created by Pircate(swifter.dev@gmail.com) on 2019/3/5
 //  Copyright © 2019年 Pircate. All rights reserved.
 //
-
-public typealias Cacheable = Storable & CachingKey & Expirable
 
 public protocol Storable {
     

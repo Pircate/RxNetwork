@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name                  = 'RxNetwork'
-  s.version               = '0.11.0-beta'
+  s.version               = '1.0.0-beta'
   s.summary               = 'A swift network library based on Moya/RxSwift.'
   s.homepage              = 'https://github.com/Pircate/RxNetwork'
   s.license               = { :type => 'MIT', :file => 'LICENSE' }
@@ -19,12 +19,8 @@ Pod::Spec.new do |s|
   
   s.subspec 'Cacheable' do |ss|
     ss.source_files = 'RxNetwork/Classes/Cacheable'
-  end
-  
-  s.subspec 'Cache' do |ss|
-    ss.source_files = 'RxNetwork/Classes/Cache'
     ss.dependency 'RxNetwork/Core'
-    ss.dependency 'RxNetwork/Cacheable'
+    ss.dependency 'Storable'
   end
   
 end

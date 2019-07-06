@@ -7,6 +7,7 @@
 //
 
 import Moya
+import Storable
 
 extension CachingKey where Self: TargetType {
     

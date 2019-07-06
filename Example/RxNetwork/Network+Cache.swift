@@ -9,6 +9,7 @@
 import Moya
 import RxNetwork
 import CommonCrypto
+import Storable
 
 extension Storable where Self: TargetType {
     
