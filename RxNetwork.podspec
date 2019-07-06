@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name                  = 'RxNetwork'
-  s.version               = '1.0.0-beta'
+  s.version               = '1.0.1-beta'
   s.summary               = 'A swift network library based on Moya/RxSwift.'
   s.homepage              = 'https://github.com/Pircate/RxNetwork'
   s.license               = { :type => 'MIT', :file => 'LICENSE' }
