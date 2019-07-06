@@ -15,17 +15,17 @@ public protocol Storable {
     /// 是否允许缓存，建议只缓存可以被成功解析的数据
     var allowsStorage: (ResponseType) -> Bool { get }
     
-    /// 获取网络请求的响应数据
+    /// 读取缓存的响应数据
     ///
     /// - Parameter key: 缓存的键
-    /// - Returns: 网络请求的响应数据
-    /// - Throws: 缓存读取可能产生的错误
+    /// - Returns: 缓存的响应数据
+    /// - Throws: 读取缓存可能产生的错误
     func cachedResponse(for key: CachingKey) throws -> ResponseType
     
-    /// 存储网络请求的响应数据
+    /// 存储缓存的响应数据
     ///
     /// - Parameters:
-    ///   - cachedResponse: 网络请求的响应数据
+    ///   - cachedResponse: 缓存的响应数据
     ///   - key: 缓存的键
     /// - Throws: 存储缓存可能产生的错误
     func storeCachedResponse(_ cachedResponse: ResponseType, for key: CachingKey) throws

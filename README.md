@@ -26,9 +26,9 @@ it, simply add the following line to your Podfile or Cartfile:
 ```ruby
 pod 'RxNetwork'
 ```
-缓存协议
+缓存
 ```ruby
-pod 'RxNetwork/Cacheable'
+pod 'RxNetwork/Cache'
 ```
 
 #### Cartfile

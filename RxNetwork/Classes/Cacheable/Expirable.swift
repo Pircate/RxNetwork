@@ -8,7 +8,7 @@
 
 public protocol Expirable {
     
-    /// 缓存过期时间
+    /// 缓存过期的时间
     var expiry: Expiry { get }
 }
 
