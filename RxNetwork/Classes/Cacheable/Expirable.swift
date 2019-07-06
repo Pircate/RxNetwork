@@ -10,12 +10,6 @@ public protocol Expirable {
     
     /// 缓存过期时间
     var expiry: Expiry { get }
-    
-    func update(expiry: Expiry, for key: CachingKey)
-    
-    func removeExpiry(for key: CachingKey)
-    
-    func expiry(for key: CachingKey) throws -> Expiry
 }
 
 public extension Expirable {
@@ -30,7 +24,7 @@ public extension Expirable {
     
     func expiry(for key: CachingKey) throws -> Expiry {
         guard let date = UserDefaults.standard.expiryDate(for: key.stringValue) else {
-            throw ExpiryError.noCache
+            throw Expiry.Error.noCache
         }
         
         return .date(date)

@@ -32,9 +32,16 @@
     },
     {
       "name": "Cacheable",
-      "source_files": "RxNetwork/Classes/Cacheable",
+      "source_files": "RxNetwork/Classes/Cacheable"
+    },
+    {
+      "name": "Cache",
+      "source_files": "RxNetwork/Classes/Cache",
       "dependencies": {
         "RxNetwork/Core": [
+
+        ],
+        "RxNetwork/Cacheable": [
 
         ]
       }

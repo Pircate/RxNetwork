@@ -77,7 +77,7 @@ Network.Configuration.default = configuration
 ```
 extension Storable where Self: TargetType {
     
-    public var allowsStorage: (Response) -> Bool {
+    public var allowsStorage: (Moya.Response) -> Bool {
         return {
             do {
                 return try $0.mapCode() == 200
@@ -162,6 +162,13 @@ TestTarget.test(count: 10)
 ```swift
 enum API: TargetType, Cacheable {
     case api
+}
+
+// 设置缓存过期时间
+extension API: Expirable {
+    var expiry: Expiry {
+        return .never
+    }
 }
 ```
 

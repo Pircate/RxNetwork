@@ -32,3 +32,15 @@ public enum Expiry {
         return date.timeIntervalSinceNow < 0
     }
 }
+
+public extension Expiry {
+    
+    enum Error: Swift.Error {
+        case noCache
+        case expired(Expired)
+    }
+    
+    struct Expired {
+        public let date: Date
+    }
+}

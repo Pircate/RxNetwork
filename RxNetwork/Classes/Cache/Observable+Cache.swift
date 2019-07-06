@@ -9,7 +9,8 @@
 import RxSwift
 import Moya
 
-extension ObservableType where Element: TargetType, Element: Cacheable {
+extension ObservableType
+where Element: TargetType, Element: Cacheable, Element.ResponseType == Moya.Response {
     
     public func request() -> Observable<Moya.Response> {
         return flatMap { target -> Observable<Moya.Response> in

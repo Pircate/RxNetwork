@@ -9,7 +9,8 @@
 import Moya
 import RxSwift
 
-public struct OnCache<Target: TargetType, C: Codable> where Target: Cacheable {
+public struct OnCache<Target: TargetType, C: Codable>
+where Target: Cacheable, Target.ResponseType == Moya.Response {
     
     public let target: Target
     

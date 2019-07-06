@@ -19,7 +19,12 @@ Pod::Spec.new do |s|
   
   s.subspec 'Cacheable' do |ss|
     ss.source_files = 'RxNetwork/Classes/Cacheable'
+  end
+  
+  s.subspec 'Cache' do |ss|
+    ss.source_files = 'RxNetwork/Classes/Cache'
     ss.dependency 'RxNetwork/Core'
+    ss.dependency 'RxNetwork/Cacheable'
   end
   
 end

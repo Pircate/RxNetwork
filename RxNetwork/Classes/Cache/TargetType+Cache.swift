@@ -9,7 +9,7 @@
 import Moya
 import RxSwift
 
-public extension TargetType where Self: Cacheable {
+public extension TargetType where Self: Cacheable, Self.ResponseType == Moya.Response {
     
     func onCache<C: Codable>(
         _ type: C.Type,
@@ -27,7 +27,7 @@ public extension TargetType where Self: Cacheable {
     }
 }
 
-public extension TargetType where Self: Cacheable {
+public extension TargetType where Self: Cacheable, Self.ResponseType == Moya.Response {
     
     var cache: Observable<Self> {
         return Observable.just(self)
@@ -37,10 +37,11 @@ public extension TargetType where Self: Cacheable {
         let expiry = try self.expiry(for: self)
         
         guard expiry.isExpired else {
-            return try cachedResponse(for: self)
+            let response = try cachedResponse(for: self)
+            return Response(statusCode: response.statusCode, data: response.data)
         }
         
-        throw ExpiryError.expired(Expired(date: expiry.date))
+        throw Expiry.Error.expired(Expiry.Expired(date: expiry.date))
     }
     
     func storeCachedResponse(_ cachedResponse: Moya.Response) throws {

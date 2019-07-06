@@ -8,15 +8,17 @@ PODS:
     - Moya/Core
     - RxSwift (~> 5.0)
   - Result (4.1.0)
-  - RxNetwork/Cacheable (0.11.0-beta):
+  - RxNetwork/Cache (0.11.0-beta):
+    - RxNetwork/Cacheable
     - RxNetwork/Core
+  - RxNetwork/Cacheable (0.11.0-beta)
   - RxNetwork/Core (0.11.0-beta):
     - Moya/RxSwift (= 14.0.0-alpha.1)
   - RxSwift (5.0.0)
 
 DEPENDENCIES:
   - CleanJSON
-  - RxNetwork/Cacheable (from `../`)
+  - RxNetwork/Cache (from `../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -35,9 +37,9 @@ SPEC CHECKSUMS:
   CleanJSON: 83e37238a637dad0ada84561d0a7d44a638e4655
   Moya: 65485239114b3b327a17dc2e839f6c8b7143aae9
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
-  RxNetwork: af40d4522dc768ca75d6f624a3a67e5dc89b9f81
+  RxNetwork: a49ae101a8ee2da063307e16805ea057235895b0
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
 
-PODFILE CHECKSUM: 22eef8d19050091620bf8737b6cdd9363d3cd8ef
+PODFILE CHECKSUM: 20a223a8e832439da64800f555ea2d2409455237
 
 COCOAPODS: 1.7.3
