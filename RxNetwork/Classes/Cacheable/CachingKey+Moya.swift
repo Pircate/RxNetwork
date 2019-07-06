@@ -9,7 +9,7 @@
 import Moya
 import Storable
 
-extension CachingKey where Self: TargetType {
+extension StoringKey where Self: TargetType {
     
     public var stringValue: String {
         return cachedKey

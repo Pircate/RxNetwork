@@ -18,7 +18,7 @@ public protocol Storable {
     /// - Parameter key: 缓存的键
     /// - Returns: 缓存的响应数据
     /// - Throws: 读取缓存可能产生的错误
-    func cachedResponse(for key: CachingKey) throws -> ResponseType
+    func cachedResponse(for key: StoringKey) throws -> ResponseType
     
     /// 存储缓存的响应数据
     ///
@@ -26,13 +26,13 @@ public protocol Storable {
     ///   - cachedResponse: 缓存的响应数据
     ///   - key: 缓存的键
     /// - Throws: 存储缓存可能产生的错误
-    func storeCachedResponse(_ cachedResponse: ResponseType, for key: CachingKey) throws
+    func storeCachedResponse(_ cachedResponse: ResponseType, for key: StoringKey) throws
     
     /// 移除缓存的响应数据
     ///
     /// - Parameter key: 缓存的键
     /// - Throws: 移除缓存可能产生的错误
-    func removeCachedResponse(for key: CachingKey) throws
+    func removeCachedResponse(for key: StoringKey) throws
     
     /// 移除所有的缓存数据
     ///

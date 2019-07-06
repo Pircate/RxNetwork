@@ -10,7 +10,9 @@ import Moya
 import RxSwift
 import Storable
 
-public typealias Cacheable = Storable & CachingKey & Expirable
+public typealias CachingKey = StoringKey
+
+public typealias Cacheable = Storable & StoringKey & Expirable
 
 public extension Expirable {
     

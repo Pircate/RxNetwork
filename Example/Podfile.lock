@@ -14,7 +14,7 @@ PODS:
   - RxNetwork/Core (1.0.0-beta):
     - Moya/RxSwift (= 14.0.0-alpha.1)
   - RxSwift (5.0.0)
-  - Storable (0.1.0)
+  - Storable (0.1.1)
 
 DEPENDENCIES:
   - CleanJSON
@@ -40,7 +40,7 @@ SPEC CHECKSUMS:
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   RxNetwork: d84d80e4aa6c8bfa6d674c7fbc35e85faf2dd596
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
-  Storable: e880d65b5ab57283115983bdb9d3d068e5bcb724
+  Storable: 31d19a4f897d68d1f1843604b60e12e5c2e1db5f
 
 PODFILE CHECKSUM: 22eef8d19050091620bf8737b6cdd9363d3cd8ef
 

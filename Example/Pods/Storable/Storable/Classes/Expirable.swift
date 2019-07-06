@@ -14,15 +14,15 @@ public protocol Expirable {
 
 public extension Expirable {
     
-    func update(expiry: Expiry, for key: CachingKey) {
+    func update(expiry: Expiry, for key: StoringKey) {
         UserDefaults.standard.update(expiry: expiry.date, for: key.stringValue)
     }
     
-    func removeExpiry(for key: CachingKey) {
+    func removeExpiry(for key: StoringKey) {
         UserDefaults.standard.removeExpiryDate(for: key.stringValue)
     }
     
-    func expiry(for key: CachingKey) throws -> Expiry {
+    func expiry(for key: StoringKey) throws -> Expiry {
         guard let date = UserDefaults.standard.expiryDate(for: key.stringValue) else {
             throw Expiry.Error.noCache
         }
