@@ -8,6 +8,30 @@
 
 import UIKit
 
+/// 可变参打印函数
+///
+/// - Parameters:
+///   - items: Zero or more items to print.
+///   - separator: A string to print between each item. The default is a single space (`" "`).
+///   - terminator: The string to print after all items have been printed. The  default is a newline (`"\n"`).
+///   - file: 文件名，默认值：#file
+///   - line: 第几行，默认值：#line
+///   - function: 函数名，默认值：#function
+func QL1(_ items: Any...,
+    separator: String = " ",
+    terminator: String = "\n",
+    file: String = #file,
+    line: Int = #line,
+    function: String = #function) {
+    #if DEBUG
+    print("\((file as NSString).lastPathComponent):\(line) \(function):", terminator: separator)
+    let count = items.count - 1
+    for (i, item) in items.enumerated() {
+        print(item, terminator: i == count ? terminator : separator)
+    }
+    #endif
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

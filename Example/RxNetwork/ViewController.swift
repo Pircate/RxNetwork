@@ -18,17 +18,17 @@ import CleanJSON
 //}
 
 enum DataType {
-    case storyAPI
-    case storyAPICache
-    case storiAPICleanJSON
     case storyAPIMapJSON
+    case storiAPIMapModel
+    case storyAPICacheModel
+    case storyAPICacheData
     
-    case bannerAPI
-    case bannerAPICache
-    case bannerAPIMapObject
     case bannerAPIMapJSON
-    case bannerAPIOriginalModel
-    case bannerAPIOriginalModelKeyPath
+    case bannerAPIMapModel
+    case bannerAPIMapRawModel
+    case bannerAPIMapRawModelKeyPath
+    case bannerAPICacheData
+    case bannerAPICacheModel
 }
 
 struct DataModel {
@@ -40,17 +40,17 @@ class ViewController: UIViewController {
     // MARK: - Property
     private let disposeBag = DisposeBag()
     private let datas = [
-        DataModel(type: .storyAPI, title: "无缓存: StoryAPI.latest"),
-        DataModel(type: .storyAPICache, title: "有缓存：StoryAPI.latest"),
-        DataModel(type: .storiAPICleanJSON, title: "StoryAPI: CleanJSON"),
-        DataModel(type: .storyAPIMapJSON, title: "storyAPI: MapJSON"),
+        DataModel(type: .storyAPIMapJSON, title: "storyAPI: 无缓存，原始 JSON"),
+        DataModel(type: .storiAPIMapModel, title: "StoryAPI: 无缓存，转 model"),
+        DataModel(type: .storyAPICacheData, title: "StoryAPI: 缓存 data"),
+        DataModel(type: .storyAPICacheModel, title: "StoryAPI: 缓存 model"),
         
-        DataModel(type: .bannerAPI, title: "bannerAPI: 无缓存"),
-        DataModel(type: .bannerAPICache, title: "bannerAPI: 缓存"),
-        DataModel(type: .bannerAPIMapObject, title: "bannerAPI: MapObject"),
-        DataModel(type: .bannerAPIMapJSON, title: "bannerAPI: mapJSON"),
-        DataModel(type: .bannerAPIOriginalModel, title: "bannerAPI: OriginalModel"),
-        DataModel(type: .bannerAPIOriginalModelKeyPath, title: "bannerAPI: OriginalModelKeyPath"),
+        DataModel(type: .bannerAPIMapJSON, title: "bannerAPI: 无缓存，原始 JSON"),
+        DataModel(type: .bannerAPIMapModel, title: "bannerAPI: 无缓存， 转外层已处理好的 model"),
+        DataModel(type: .bannerAPIMapRawModel, title: "bannerAPI: 无缓存，转原始 model"),
+        DataModel(type: .bannerAPIMapRawModelKeyPath, title: "bannerAPI: 转原始 keypath model"),
+        DataModel(type: .bannerAPICacheData, title: "bannerAPI: 缓存 data"),
+        DataModel(type: .bannerAPICacheModel, title: "bannerAPI: 缓存原始 model"),
         
     ]
     let cellID = "Cell"
@@ -96,7 +96,7 @@ private extension ViewController {
     }
     
     func configNetwork() {
-        Network.Configuration.default.timeoutInterval = 20
+        Network.Configuration.default.timeoutInterval = 10
         Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
         Network.Configuration.default.replacingTask = { target in
             // configure common parameters etc.
@@ -134,104 +134,95 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         let data = datas[indexPath.row]
         switch data.type {
-        case .storyAPI:
-            /*
-             {
-             "top_stories": []
-             }
-             */
-            StoryAPI.latest
-                .onCache(StoryListModel.self, using: CleanJSONDecoder(), { (model) in
-                    debugPrint("onCache:", model)
+            // MARK: storyAPI
+        case .storyAPIMapJSON:
+            StoryAPI.latest.request()
+                .mapJSON()
+                .subscribe(onSuccess: { (json) in
+                    QL1(json)
                 })
-                .request()
+                .disposed(by: disposeBag)
+
+        case .storiAPIMapModel:
+            StoryAPI.latest.request()
+                .map(StoryListModel.self, using: CleanJSONDecoder())
                 .subscribe(onSuccess: { (model) in
-                    debugPrint("onSuccess:", model)
+                    QL1(model)
                 })
                 .disposed(by: disposeBag)
             
-        case .storyAPICache:
+        case .storyAPICacheData:
             StoryAPI.latest
                 .cache
                 .request()
                 .map(StoryListModel.self, using: CleanJSONDecoder())
                 .subscribe(onNext: { (model) in
-                    debugPrint(model)
+                    QL1(model)
                 }).disposed(by: disposeBag)
             
-        case .storiAPICleanJSON:
-            StoryAPI.latest.request()
-                .map(StoryListModel.self, using: CleanJSONDecoder())
-                .subscribe(onSuccess: { (model) in
-                    debugPrint(model)
+        case .storyAPICacheModel:
+            StoryAPI.latest
+                .onCache(StoryListModel.self, using: CleanJSONDecoder(), { (model) in
+                    QL1("onCache:", model)
                 })
-            .disposed(by: disposeBag)
+                .request()
+                .subscribe(onSuccess: { (model) in
+                    QL1("onSuccess:", model)
+                })
+                .disposed(by: disposeBag)
             
-        case .storyAPIMapJSON:
-            StoryAPI.latest.request()
+            
+            // MARK: bannerAPI
+        case .bannerAPIMapJSON:
+            BannerAPI.test(count: 10).request()
                 .mapJSON()
                 .subscribe(onSuccess: { (json) in
-                    debugPrint(json)
+                    QL1(json)
+                }).disposed(by: disposeBag)
+            
+        case .bannerAPIMapModel:
+            // 项目最外层已经处理
+            BannerAPI.test(count: 10).request()
+                .mapObject([BannerModel].self)
+                .subscribe(onSuccess: { (models) in
+                    QL1("without cache:", models)
+                }).disposed(by: disposeBag)
+            
+        case .bannerAPIMapRawModel:
+            // 非约定接口，最外层结构和项目不一样
+            StoryAPI.latest.request()
+                .mapRawObject(StoryListModel.self, atKeyPath: nil)
+                .subscribe(onSuccess: { (model) in
+                    QL1(model)
                 })
                 .disposed(by: disposeBag)
             
-        case .bannerAPI:
-            /*
-             {
-             "code": 2000,
-             "message": "Ok",
-             "result": []
-             }
-             */
-            BannerAPI.test(count: 10)
-                .onCache([BannerModel].self, atKeyPath: "result", { (models) in
-                    debugPrint(models)
-                })
-                .requestObject()
+        case .bannerAPIMapRawModelKeyPath:
+            StoryAPI.latest.request()
+                .mapRawObject([StoryItemModel].self, atKeyPath: "top_stories")
                 .subscribe(onSuccess: { (models) in
-                    debugPrint(models)
+                    QL1(models)
                 })
                 .disposed(by: disposeBag)
-
-        case .bannerAPICache:
+        
+        case .bannerAPICacheData:
             BannerAPI.test(count: 10)
                 .cache
                 .request()
                 .mapObject([BannerModel].self)
                 .subscribe(onNext: { (models) in
-                    debugPrint("onNext:", models)
-                })
-                .disposed(by: disposeBag)
-
-        case .bannerAPIMapObject:
-            // 项目最外层已经处理
-            BannerAPI.test(count: 10).request()
-                .mapObject([BannerModel].self)
-                .subscribe(onSuccess: { (models) in
-                    debugPrint("without cache:", models)
-                }).disposed(by: disposeBag)
-            
-        case .bannerAPIMapJSON:
-            BannerAPI.test(count: 10).request()
-                .mapJSON()
-                .subscribe(onSuccess: { (json) in
-                    debugPrint(json)
-                }).disposed(by: disposeBag)
-            
-        case .bannerAPIOriginalModel:
-            // 非约定接口，最外层结构和项目不一样
-            StoryAPI.latest.request()
-            .mapRawObject(StoryListModel.self, atKeyPath: nil)
-                .subscribe(onSuccess: { (model) in
-                    debugPrint(model)
+                    QL1("onNext:", models)
                 })
                 .disposed(by: disposeBag)
             
-        case .bannerAPIOriginalModelKeyPath:
-            StoryAPI.latest.request()
-                .mapRawObject([StoryItemModel].self, atKeyPath: "top_stories")
+        case .bannerAPICacheModel:
+            BannerAPI.test(count: 10)
+                .onCache([BannerModel].self, atKeyPath: "result", { (models) in
+                    QL1(models)
+                })
+                .requestObject()
                 .subscribe(onSuccess: { (models) in
-                    debugPrint(models)
+                    QL1(models)
                 })
                 .disposed(by: disposeBag)
 
