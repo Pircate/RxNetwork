@@ -8,7 +8,17 @@
 
 import Foundation
 
+enum StoryType: Int, Codable, MyCaseDefaultable {    
+    static var defaultCase: StoryType = .east
+    
+    case east = 0
+    case sourth
+    case west
+    case north
+}
+
 struct BannerModel: Codable {
     let name: String
-    let id: String
+    let id: Int
+    let noKey: Int
 }

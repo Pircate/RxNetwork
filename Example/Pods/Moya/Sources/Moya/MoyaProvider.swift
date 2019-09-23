@@ -1,5 +1,4 @@
 import Foundation
-import Result
 
 /// Closure to be executed when a request has completed.
 public typealias Completion = (_ result: Result<Moya.Response, MoyaError>) -> Void
@@ -76,8 +75,7 @@ open class MoyaProvider<Target: TargetType>: MoyaProviderType {
     /// of a request for a given `TargetType`.
     public let stubClosure: StubClosure
 
-    /// The manager for the session.
-    public let manager: Manager
+    public let session: Session
 
     /// A list of plugins.
     /// e.g. for logging, network activity indicator or credentials.
@@ -95,14 +93,14 @@ open class MoyaProvider<Target: TargetType>: MoyaProviderType {
                 requestClosure: @escaping RequestClosure = MoyaProvider.defaultRequestMapping,
                 stubClosure: @escaping StubClosure = MoyaProvider.neverStub,
                 callbackQueue: DispatchQueue? = nil,
-                manager: Manager = MoyaProvider<Target>.defaultAlamofireManager(),
+                session: Session = MoyaProvider<Target>.defaultAlamofireSession(),
                 plugins: [PluginType] = [],
                 trackInflights: Bool = false) {
 
         self.endpointClosure = endpointClosure
         self.requestClosure = requestClosure
         self.stubClosure = stubClosure
-        self.manager = manager
+        self.session = session
         self.plugins = plugins
         self.trackInflights = trackInflights
         self.callbackQueue = callbackQueue
