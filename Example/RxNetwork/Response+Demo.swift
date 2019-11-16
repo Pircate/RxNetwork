@@ -17,12 +17,7 @@ public extension Response {
         if response.success { return response.data }
         throw Network.Error.status(code: response.code, message: response.message)
     }
-    
-    func mapRawObject<T: Codable>(_ type: T.Type, atKeyPath: String? = nil) throws -> T {
-        let model = try map(type, atKeyPath: atKeyPath, using: CleanJSONDecoder(), failsOnEmptyData: true)
-        return model
-    }
-    
+        
     func mapCode() throws -> Int {
         return try map(Int.self, atKeyPath: "code")
     }

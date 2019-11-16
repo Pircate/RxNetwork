@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '9.0'
 use_frameworks!
 
 install! 'cocoapods', :disable_input_output_paths => true
@@ -7,6 +7,7 @@ target 'RxNetwork_Example' do
   pod 'RxNetwork/Cacheable', :path => '../'
   
   pod 'CleanJSON'
+  pod 'SwiftyJSON'
 
   target 'RxNetwork_Tests' do
     inherit! :search_paths

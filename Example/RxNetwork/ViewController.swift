@@ -12,6 +12,7 @@ import RxSwift
 import Moya
 import Alamofire
 import CleanJSON
+import SwiftyJSON
 
 //protocol Retryable {
 //    var retry: Bool { get }
@@ -59,6 +60,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configNetwork()
         makeUI()
     }
     
@@ -139,7 +141,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             StoryAPI.latest.request()
                 .mapJSON()
                 .subscribe(onSuccess: { (json) in
-                    QL1(json)
+                    QL1(JSON(rawValue: json))
                 })
                 .disposed(by: disposeBag)
 
@@ -177,7 +179,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             BannerAPI.test(count: 10).request()
                 .mapJSON()
                 .subscribe(onSuccess: { (json) in
-                    QL1(json)
+                    QL1(JSON(rawValue: json))
                 }).disposed(by: disposeBag)
             
         case .bannerAPIMapModel:
@@ -191,7 +193,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         case .bannerAPIMapRawModel:
             // 非约定接口，最外层结构和项目不一样
             StoryAPI.latest.request()
-                .mapRawObject(StoryListModel.self, atKeyPath: nil)
+                .map(StoryListModel.self, atKeyPath: nil, using: CleanJSONDecoder(), failsOnEmptyData: true)
                 .subscribe(onSuccess: { (model) in
                     QL1(model)
                 })
@@ -199,7 +201,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .bannerAPIMapRawModelKeyPath:
             StoryAPI.latest.request()
-                .mapRawObject([StoryItemModel].self, atKeyPath: "top_stories")
+                .map([StoryItemModel].self, atKeyPath: "top_stories", using: CleanJSONDecoder(), failsOnEmptyData: true)
                 .subscribe(onSuccess: { (models) in
                     QL1(models)
                 })
