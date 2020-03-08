@@ -7,7 +7,6 @@
 //
 
 import Moya
-import Result
 
 public final class NetworkIndicatorPlugin: PluginType {
     
