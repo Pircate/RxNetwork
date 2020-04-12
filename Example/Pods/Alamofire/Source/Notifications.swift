@@ -49,11 +49,7 @@ public extension Request {
 extension Notification {
     /// The `Request` contained by the instance's `userInfo`, `nil` otherwise.
     public var request: Request? {
-<<<<<<< HEAD
         userInfo?[String.requestKey] as? Request
-=======
-        return userInfo?[String.requestKey] as? Request
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     }
 
     /// Convenience initializer for a `Notification` containing a `Request` payload.

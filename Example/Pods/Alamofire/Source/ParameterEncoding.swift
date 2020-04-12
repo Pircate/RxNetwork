@@ -30,19 +30,11 @@ public typealias Parameters = [String: Any]
 /// A type used to define how a set of parameters are applied to a `URLRequest`.
 public protocol ParameterEncoding {
     /// Creates a `URLRequest` by encoding parameters and applying them on the passed request.
-<<<<<<< HEAD
     ///
     /// - Parameters:
     ///   - urlRequest: `URLRequestConvertible` value onto which parameters will be encoded.
     ///   - parameters: `Parameters` to encode onto the request.
     ///
-=======
-    ///
-    /// - Parameters:
-    ///   - urlRequest: `URLRequestConvertible` value onto which parameters will be encoded.
-    ///   - parameters: `Parameters` to encode onto the request.
-    ///
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     /// - Returns:      The encoded `URLRequest`.
     /// - Throws:       Any `Error` produced during parameter encoding.
     func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest
@@ -124,11 +116,7 @@ public struct URLEncoding: ParameterEncoding {
     // MARK: Properties
 
     /// Returns a default `URLEncoding` instance with a `.methodDependent` destination.
-<<<<<<< HEAD
     public static var `default`: URLEncoding { URLEncoding() }
-=======
-    public static var `default`: URLEncoding { return URLEncoding() }
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
 
     /// Returns a `URLEncoding` instance with a `.queryString` destination.
     public static var queryString: URLEncoding { URLEncoding(destination: .queryString) }
@@ -224,21 +212,12 @@ public struct URLEncoding: ParameterEncoding {
     }
 
     /// Creates a percent-escaped string following RFC 3986 for a query string key or value.
-<<<<<<< HEAD
     ///
     /// - Parameter string: `String` to be percent-escaped.
     ///
     /// - Returns:          The percent-escaped `String`.
     public func escape(_ string: String) -> String {
         string.addingPercentEncoding(withAllowedCharacters: .afURLQueryAllowed) ?? string
-=======
-    ///
-    /// - Parameter string: `String` to be percent-escaped.
-    ///
-    /// - Returns:          The percent-escaped `String`.
-    public func escape(_ string: String) -> String {
-        return string.addingPercentEncoding(withAllowedCharacters: .afURLQueryAllowed) ?? string
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     }
 
     private func query(_ parameters: [String: Any]) -> String {
@@ -300,19 +279,11 @@ public struct JSONEncoding: ParameterEncoding {
     }
 
     /// Encodes any JSON compatible object into a `URLRequest`.
-<<<<<<< HEAD
     ///
     /// - Parameters:
     ///   - urlRequest: `URLRequestConvertible` value into which the object will be encoded.
     ///   - jsonObject: `Any` value (must be JSON compatible` to be encoded into the `URLRequest`. `nil` by default.
     ///
-=======
-    ///
-    /// - Parameters:
-    ///   - urlRequest: `URLRequestConvertible` value into which the object will be encoded.
-    ///   - jsonObject: `Any` value (must be JSON compatible` to be encoded into the `URLRequest`. `nil` by default.
-    ///
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     /// - Returns:      The encoded `URLRequest`.
     /// - Throws:       Any `Error` produced during encoding.
     public func encode(_ urlRequest: URLRequestConvertible, withJSONObject jsonObject: Any? = nil) throws -> URLRequest {

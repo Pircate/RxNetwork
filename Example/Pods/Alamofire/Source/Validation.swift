@@ -66,11 +66,7 @@ extension Request {
 
     // MARK: Properties
 
-<<<<<<< HEAD
     fileprivate var acceptableStatusCodes: Range<Int> { 200..<300 }
-=======
-    fileprivate var acceptableStatusCodes: Range<Int> { return 200..<300 }
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
 
     fileprivate var acceptableContentTypes: [String] {
         if let accept = request?.value(forHTTPHeaderField: "Accept") {
@@ -152,7 +148,6 @@ extension DataRequest {
     /// request was valid.
     public typealias Validation = (URLRequest?, HTTPURLResponse, Data?) -> ValidationResult
 
-<<<<<<< HEAD
     /// Validates that the response has a status code in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -201,8 +196,6 @@ extension DataStreamRequest {
     /// request was valid.
     public typealias Validation = (_ request: URLRequest?, _ response: HTTPURLResponse) -> ValidationResult
 
-=======
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     /// Validates that the response has a status code in the specified sequence.
     ///
     /// If validation fails, subsequent calls to response handlers will have an associated error.
@@ -212,11 +205,7 @@ extension DataStreamRequest {
     /// - Returns:              The instance.
     @discardableResult
     public func validate<S: Sequence>(statusCode acceptableStatusCodes: S) -> Self where S.Iterator.Element == Int {
-<<<<<<< HEAD
         return validate { [unowned self] _, response in
-=======
-        return validate { [unowned self] _, response, _ in
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
             self.validate(statusCode: acceptableStatusCodes, response: response)
         }
     }
@@ -230,13 +219,8 @@ extension DataStreamRequest {
     /// - returns: The request.
     @discardableResult
     public func validate<S: Sequence>(contentType acceptableContentTypes: @escaping @autoclosure () -> S) -> Self where S.Iterator.Element == String {
-<<<<<<< HEAD
         return validate { [unowned self] _, response in
             self.validate(contentType: acceptableContentTypes(), response: response)
-=======
-        return validate { [unowned self] _, response, data in
-            self.validate(contentType: acceptableContentTypes(), response: response, data: data)
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
         }
     }
 
@@ -248,14 +232,7 @@ extension DataStreamRequest {
     /// - Returns: The instance.
     @discardableResult
     public func validate() -> Self {
-<<<<<<< HEAD
         validate(statusCode: acceptableStatusCodes).validate(contentType: self.acceptableContentTypes)
-=======
-        let contentTypes: () -> [String] = { [unowned self] in
-            self.acceptableContentTypes
-        }
-        return validate(statusCode: acceptableStatusCodes).validate(contentType: contentTypes())
->>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     }
 }
 
