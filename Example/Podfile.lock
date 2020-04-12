@@ -1,22 +1,24 @@
 PODS:
-  - Alamofire (5.0.2)
-  - CleanJSON (1.0.0)
+  - Alamofire (5.1.0)
+  - CleanJSON (1.0.1)
   - Moya/Core (14.0.0):
     - Alamofire (~> 5.0)
   - Moya/RxSwift (14.0.0):
     - Moya/Core
     - RxSwift (~> 5.0)
-  - RxNetwork/Cacheable (1.0.1-beta):
+  - RxNetwork/Cacheable (1.0.2):
     - RxNetwork/Core
     - Storable
-  - RxNetwork/Core (1.0.1-beta):
+  - RxNetwork/Core (1.0.2):
     - Moya/RxSwift
-  - RxSwift (5.1.0)
+  - RxSwift (5.1.1)
   - Storable (0.1.1)
+  - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - CleanJSON
   - RxNetwork/Cacheable (from `../`)
+  - SwiftyJSON
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -25,19 +27,21 @@ SPEC REPOS:
     - Moya
     - RxSwift
     - Storable
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   RxNetwork:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Alamofire: 3ba7a4db18b4f62c4a1c0e1cb39d7f3d52e10ada
-  CleanJSON: 702dd619e1329c6399a579aa19af311acf47e461
+  Alamofire: 9d5c5f602928e512395b30950c5984eca840093c
+  CleanJSON: 6fd9a37e489a673adf9c8ebd7b67aff21a582163
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
-  RxNetwork: 35dde92da369c66de7388fd20d890af62d88a3c0
-  RxSwift: ad5874f24bb0dbffd1e9bb8443604e3578796c7a
+  RxNetwork: b14e08b1ed874a0379496065be43ef0ee1ac0adb
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Storable: 31d19a4f897d68d1f1843604b60e12e5c2e1db5f
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 55ef45f06eb8678df19475a2299c1eb3e944f16c
+PODFILE CHECKSUM: edbf480731555a2abe025f46b0d227d10858fda9
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

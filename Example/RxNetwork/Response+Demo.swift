@@ -17,7 +17,7 @@ public extension Response {
         if response.success { return response.data }
         throw Network.Error.status(code: response.code, message: response.message)
     }
-    
+        
     func mapCode() throws -> Int {
         return try map(Int.self, atKeyPath: "code")
     }

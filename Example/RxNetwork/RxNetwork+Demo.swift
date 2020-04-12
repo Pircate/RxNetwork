@@ -9,6 +9,7 @@
 import Moya
 import RxSwift
 
+// MARK: - 不缓存的请求用
 public extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     
     func mapObject<T: Codable>(_ type: T.Type) -> Single<T> {
@@ -16,6 +17,7 @@ public extension PrimitiveSequence where Trait == SingleTrait, Element == Respon
     }
 }
 
+// MARK: - 需要缓存的请求用
 public extension ObservableType where Element == Response {
     
     func mapObject<T: Codable>(_ type: T.Type) -> Observable<T> {

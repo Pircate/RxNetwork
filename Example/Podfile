@@ -8,6 +8,7 @@ target 'RxNetwork_Example' do
   pod 'RxNetwork/Cacheable', :path => '../'
   
   pod 'CleanJSON'
+  pod 'SwiftyJSON'
 
   target 'RxNetwork_Tests' do
     inherit! :search_paths

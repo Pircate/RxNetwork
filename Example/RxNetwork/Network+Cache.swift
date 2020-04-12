@@ -21,6 +21,7 @@ extension Storable where Self: TargetType {
         else {
             fatalError("Couldn't search cache's directory.")
         }
+        QL1("缓存路径：\(path)")
         
         return URL(fileURLWithPath: path)
     }
