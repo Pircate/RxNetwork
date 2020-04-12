@@ -38,6 +38,7 @@ struct DataModel {
 }
 
 class ViewController: UIViewController {
+
     // MARK: - Property
     private let disposeBag = DisposeBag()
     private let datas = [
@@ -69,14 +70,14 @@ class ViewController: UIViewController {
     
     
     // MARK: - Lazy
-    /// 懒加载tv
+    /// 懒加载 表格
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 0)))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-        
+
         return tableView
     }()
 }
@@ -98,7 +99,8 @@ private extension ViewController {
     }
     
     func configNetwork() {
-        Network.Configuration.default.timeoutInterval = 10
+        Network.Configuration.default.timeoutInterval = 30
+        
         Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
         Network.Configuration.default.replacingTask = { target in
             // configure common parameters etc.
@@ -138,6 +140,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         switch data.type {
             // MARK: storyAPI
         case .storyAPIMapJSON:
+            Network.Configuration.default.timeoutInterval = 10
             StoryAPI.latest.request()
                 .mapJSON()
                 .subscribe(onSuccess: { (json) in
@@ -146,6 +149,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 .disposed(by: disposeBag)
 
         case .storiAPIMapModel:
+            Network.Configuration.default.timeoutInterval = 30
             StoryAPI.latest.request()
                 .map(StoryListModel.self, using: CleanJSONDecoder())
                 .subscribe(onSuccess: { (model) in

@@ -17,7 +17,7 @@ import UIKit
 ///   - file: 文件名，默认值：#file
 ///   - line: 第几行，默认值：#line
 ///   - function: 函数名，默认值：#function
-func QL1(_ items: Any...,
+func QL1(_ items: Any?...,
     separator: String = " ",
     terminator: String = "\n",
     file: String = #file,
@@ -27,7 +27,7 @@ func QL1(_ items: Any...,
     print("\((file as NSString).lastPathComponent):\(line) \(function):", terminator: separator)
     let count = items.count - 1
     for (i, item) in items.enumerated() {
-        print(item, terminator: i == count ? terminator : separator)
+        print(item ?? "nil", terminator: i == count ? terminator : separator)
     }
     #endif
 }
