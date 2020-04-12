@@ -14,16 +14,16 @@ import Alamofire
 import CleanJSON
 import SwiftyJSON
 
-//protocol Retryable {
-//    var retry: Bool { get }
-//}
+protocol Retryable {
+    var retry: Bool { get }
+}
 
 enum DataType {
     case storyAPIMapJSON
     case storiAPIMapModel
     case storyAPICacheModel
     case storyAPICacheData
-    
+
     case bannerAPIMapJSON
     case bannerAPIMapModel
     case bannerAPIMapRawModel
@@ -40,55 +40,115 @@ struct DataModel {
 class ViewController: UIViewController {
 
     // MARK: - Property
-    private let disposeBag = DisposeBag()
-    private let datas = [
-        DataModel(type: .storyAPIMapJSON, title: "storyAPI: 无缓存，原始 JSON"),
-        DataModel(type: .storiAPIMapModel, title: "StoryAPI: 无缓存，转 model"),
-        DataModel(type: .storyAPICacheData, title: "StoryAPI: 缓存 data"),
-        DataModel(type: .storyAPICacheModel, title: "StoryAPI: 缓存 model"),
-        
-        DataModel(type: .bannerAPIMapJSON, title: "bannerAPI: 无缓存，原始 JSON"),
-        DataModel(type: .bannerAPIMapModel, title: "bannerAPI: 无缓存， 转外层已处理好的 model"),
-        DataModel(type: .bannerAPIMapRawModel, title: "bannerAPI: 无缓存，转原始 model"),
-        DataModel(type: .bannerAPIMapRawModelKeyPath, title: "bannerAPI: 转原始 keypath model"),
-        DataModel(type: .bannerAPICacheData, title: "bannerAPI: 缓存 data"),
-        DataModel(type: .bannerAPICacheModel, title: "bannerAPI: 缓存原始 model"),
-        
-    ]
-    let cellID = "Cell"
-    
-    // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configNetwork()
-        makeUI()
-    }
-    
-    
-    // MARK: - Action
-    
-    
-    // MARK: - Lazy
     /// 懒加载 表格
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.tableFooterView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 0)))
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ViewController.cellID)
 
         return tableView
     }()
+
+    private let disposeBag = DisposeBag()
+    private let datas = [
+        DataModel(type: .storyAPIMapJSON, title: "storyAPI: 无缓存，原始 JSON"),
+        DataModel(type: .storiAPIMapModel, title: "StoryAPI: 无缓存，转 model"),
+        DataModel(type: .storyAPICacheData, title: "StoryAPI: 缓存 data"),
+        DataModel(type: .storyAPICacheModel, title: "StoryAPI: 缓存 model"),
+
+        DataModel(type: .bannerAPIMapJSON, title: "bannerAPI: 无缓存，原始 JSON"),
+        DataModel(type: .bannerAPIMapModel, title: "bannerAPI: 无缓存， 转外层已处理好的 model"),
+        DataModel(type: .bannerAPIMapRawModel, title: "bannerAPI: 无缓存，转原始 model"),
+        DataModel(type: .bannerAPIMapRawModelKeyPath, title: "bannerAPI: 转原始 keypath model"),
+        DataModel(type: .bannerAPICacheData, title: "bannerAPI: 缓存 data"),
+        DataModel(type: .bannerAPICacheModel, title: "bannerAPI: 缓存原始 model"),
+
+    ]
+    static let cellID = "Cell"
+
+    // MARK: - LifeCycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        configNetwork()
+        makeUI()
+    }
+
+    // MARK: - Action
+    @objc private func startButtonAction() {
+
+        // MARK: - request with cache
+        /*
+         {
+         "top_stories": []
+         }
+         */
+        StoryAPI.latest
+            .onCache(StoryListModel.self, using: CleanJSONDecoder(), { (model) in
+                QL1("onCache:", model.topStories.first?.title)
+            })
+            .request()
+            .subscribe(onSuccess: { (model) in
+                QL1("onSuccess:", model.topStories.first?.title)
+            })
+            .disposed(by: disposeBag)
+
+        StoryAPI.latest
+            .cache
+            .request()
+            .map(StoryListModel.self, using: CleanJSONDecoder())
+            .subscribe(onNext: { (model) in
+
+            }).disposed(by: disposeBag)
+
+        // or
+
+        /*
+         {
+         "code": 2000,
+         "message": "Ok",
+         "result": []
+         }
+         */
+        BannerAPI.test(count: 10)
+            .onCache([BannerModel].self, { (models) in
+
+            })
+            .requestObject()
+            .subscribe(onSuccess: { (models) in
+
+            })
+            .disposed(by: disposeBag)
+
+        BannerAPI.test(count: 10)
+            .cache
+            .request()
+            .mapObject([BannerModel].self)
+            .subscribe(onNext: { (models) in
+                QL1("onNext:", models.first?.name)
+            })
+            .disposed(by: disposeBag)
+
+        // MARK: - request without cache
+        BannerAPI.test(count: 10).request()
+            .mapObject([BannerModel].self)
+            .subscribe(onSuccess: { (models) in
+                QL1("without cache:", models.first?.name)
+            }).disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Private Method
 private extension ViewController {
+
     func makeUI() {
         navigationItem.title = "网络测试"
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "原始测试", style: .plain, target: self, action: #selector(startButtonAction))
+
         view.addSubview(tableView)
-        
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: UIApplication.shared.statusBarFrame.height + 44),
@@ -97,10 +157,10 @@ private extension ViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor)
             ])
     }
-    
+
     func configNetwork() {
-        Network.Configuration.default.timeoutInterval = 30
-        
+        Network.Configuration.default.timeoutInterval = 20
+
         Network.Configuration.default.plugins = [NetworkIndicatorPlugin()]
         Network.Configuration.default.replacingTask = { target in
             // configure common parameters etc.
@@ -112,7 +172,7 @@ private extension ViewController {
                 return target.task
             }
         }
-        
+
         Network.Configuration.default.addingHeaders = { target in
             if target.path.contains("user") { return ["userId": "123456789"] }
             return [:]
@@ -120,22 +180,24 @@ private extension ViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datas.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ViewController.cellID, for: indexPath)
+
         cell.textLabel?.text = datas[indexPath.row].title
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         let data = datas[indexPath.row]
         switch data.type {
             // MARK: storyAPI
@@ -156,7 +218,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                     QL1(model)
                 })
                 .disposed(by: disposeBag)
-            
+
         case .storyAPICacheData:
             StoryAPI.latest
                 .cache
@@ -165,7 +227,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 .subscribe(onNext: { (model) in
                     QL1(model)
                 }).disposed(by: disposeBag)
-            
+
         case .storyAPICacheModel:
             StoryAPI.latest
                 .onCache(StoryListModel.self, using: CleanJSONDecoder(), { (model) in
@@ -176,8 +238,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                     QL1("onSuccess:", model)
                 })
                 .disposed(by: disposeBag)
-            
-            
+
+
             // MARK: bannerAPI
         case .bannerAPIMapJSON:
             BannerAPI.test(count: 10).request()
@@ -185,7 +247,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 .subscribe(onSuccess: { (json) in
                     QL1(JSON(rawValue: json))
                 }).disposed(by: disposeBag)
-            
+
         case .bannerAPIMapModel:
             // 项目最外层已经处理
             BannerAPI.test(count: 10).request()
@@ -193,7 +255,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 .subscribe(onSuccess: { (models) in
                     QL1("without cache:", models)
                 }).disposed(by: disposeBag)
-            
+
         case .bannerAPIMapRawModel:
             // 非约定接口，最外层结构和项目不一样
             StoryAPI.latest.request()
@@ -202,7 +264,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                     QL1(model)
                 })
                 .disposed(by: disposeBag)
-            
+
         case .bannerAPIMapRawModelKeyPath:
             StoryAPI.latest.request()
                 .map([StoryItemModel].self, atKeyPath: "top_stories", using: CleanJSONDecoder(), failsOnEmptyData: true)
@@ -210,7 +272,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                     QL1(models)
                 })
                 .disposed(by: disposeBag)
-        
+
         case .bannerAPICacheData:
             BannerAPI.test(count: 10)
                 .cache
@@ -220,7 +282,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                     QL1("onNext:", models)
                 })
                 .disposed(by: disposeBag)
-            
+
         case .bannerAPICacheModel:
             BannerAPI.test(count: 10)
                 .onCache([BannerModel].self, atKeyPath: "result", { (models) in

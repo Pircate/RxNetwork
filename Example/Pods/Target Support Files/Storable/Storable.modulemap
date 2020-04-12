@@ -1,0 +1,6 @@
+framework module Storable {
+  umbrella header "Storable-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -38,6 +38,21 @@ open class SessionDelegate: NSObject {
     public init(fileManager: FileManager = .default) {
         self.fileManager = fileManager
     }
+<<<<<<< HEAD
+
+    /// Internal method to find and cast requests while maintaining some integrity checking.
+    ///
+    /// - Parameters:
+    ///   - task: The `URLSessionTask` for which to find the associated `Request`.
+    ///   - type: The `Request` subclass type to cast any `Request` associate with `task`.
+    func request<R: Request>(for task: URLSessionTask, as type: R.Type) -> R? {
+        guard let provider = stateProvider else {
+            assertionFailure("StateProvider is nil.")
+            return nil
+        }
+
+        return provider.request(for: task) as? R
+=======
 
     /// Internal method to find and cast requests while maintaining some integrity checking.
     ///
@@ -55,6 +70,7 @@ open class SessionDelegate: NSObject {
         }
 
         return request
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     }
 }
 
@@ -66,7 +82,11 @@ protocol SessionStateProvider: AnyObject {
 
     func request(for task: URLSessionTask) -> Request?
     func didGatherMetricsForTask(_ task: URLSessionTask)
+<<<<<<< HEAD
+    func didCompleteTask(_ task: URLSessionTask, completion: @escaping () -> Void)
+=======
     func didCompleteTask(_ task: URLSessionTask)
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     func credential(for task: URLSessionTask, in protectionSpace: URLProtectionSpace) -> URLCredential?
     func cancelRequestsForSessionInvalidation(with error: Error?)
 }
@@ -211,6 +231,49 @@ extension SessionDelegate: URLSessionTaskDelegate {
 
     open func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         eventMonitor?.urlSession(session, task: task, didCompleteWithError: error)
+<<<<<<< HEAD
+
+        let request = stateProvider?.request(for: task)
+
+        stateProvider?.didCompleteTask(task) {
+            request?.didCompleteTask(task, with: error.map { $0.asAFError(or: .sessionTaskFailed(error: $0)) })
+        }
+    }
+
+    @available(macOS 10.13, iOS 11.0, tvOS 11.0, watchOS 4.0, *)
+    open func urlSession(_ session: URLSession, taskIsWaitingForConnectivity task: URLSessionTask) {
+        eventMonitor?.urlSession(session, taskIsWaitingForConnectivity: task)
+    }
+}
+
+// MARK: URLSessionDataDelegate
+
+extension SessionDelegate: URLSessionDataDelegate {
+    open func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        eventMonitor?.urlSession(session, dataTask: dataTask, didReceive: data)
+
+        if let request = request(for: dataTask, as: DataRequest.self) {
+            request.didReceive(data: data)
+        } else if let request = request(for: dataTask, as: DataStreamRequest.self) {
+            request.didReceive(data: data)
+        } else {
+            assertionFailure("dataTask did not find DataRequest or DataStreamRequest in didReceive")
+            return
+        }
+    }
+
+    open func urlSession(_ session: URLSession,
+                         dataTask: URLSessionDataTask,
+                         willCacheResponse proposedResponse: CachedURLResponse,
+                         completionHandler: @escaping (CachedURLResponse?) -> Void) {
+        eventMonitor?.urlSession(session, dataTask: dataTask, willCacheResponse: proposedResponse)
+
+        if let handler = stateProvider?.request(for: dataTask)?.cachedResponseHandler ?? stateProvider?.cachedResponseHandler {
+            handler.dataTask(dataTask, willCacheResponse: proposedResponse, completion: completionHandler)
+        } else {
+            completionHandler(proposedResponse)
+        }
+=======
 
         stateProvider?.request(for: task)?.didCompleteTask(task, with: error.map { $0.asAFError(or: .sessionTaskFailed(error: $0)) })
 
@@ -288,6 +351,47 @@ extension SessionDelegate: URLSessionDownloadDelegate {
 
         downloadRequest.updateDownloadProgress(bytesWritten: bytesWritten,
                                                totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
+    }
+
+<<<<<<< HEAD
+// MARK: URLSessionDownloadDelegate
+
+extension SessionDelegate: URLSessionDownloadDelegate {
+    open func urlSession(_ session: URLSession,
+                         downloadTask: URLSessionDownloadTask,
+                         didResumeAtOffset fileOffset: Int64,
+                         expectedTotalBytes: Int64) {
+        eventMonitor?.urlSession(session,
+                                 downloadTask: downloadTask,
+                                 didResumeAtOffset: fileOffset,
+                                 expectedTotalBytes: expectedTotalBytes)
+        guard let downloadRequest = request(for: downloadTask, as: DownloadRequest.self) else {
+            assertionFailure("downloadTask did not find DownloadRequest.")
+            return
+        }
+
+        downloadRequest.updateDownloadProgress(bytesWritten: fileOffset,
+                                               totalBytesExpectedToWrite: expectedTotalBytes)
+    }
+
+    open func urlSession(_ session: URLSession,
+                         downloadTask: URLSessionDownloadTask,
+                         didWriteData bytesWritten: Int64,
+                         totalBytesWritten: Int64,
+                         totalBytesExpectedToWrite: Int64) {
+        eventMonitor?.urlSession(session,
+                                 downloadTask: downloadTask,
+                                 didWriteData: bytesWritten,
+                                 totalBytesWritten: totalBytesWritten,
+                                 totalBytesExpectedToWrite: totalBytesExpectedToWrite)
+        guard let downloadRequest = request(for: downloadTask, as: DownloadRequest.self) else {
+            assertionFailure("downloadTask did not find DownloadRequest.")
+            return
+        }
+
+        downloadRequest.updateDownloadProgress(bytesWritten: bytesWritten,
+                                               totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
 
     open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
@@ -320,7 +424,42 @@ extension SessionDelegate: URLSessionDownloadDelegate {
 
             request.didFinishDownloading(using: downloadTask, with: .success(destination))
         } catch {
+            request.didFinishDownloading(using: downloadTask, with: .failure(.downloadedFileMoveFailed(error: error,
+                                                                                                       source: location,
+                                                                                                       destination: destination)))
+=======
+    open func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        eventMonitor?.urlSession(session, downloadTask: downloadTask, didFinishDownloadingTo: location)
+
+        guard let request = request(for: downloadTask, as: DownloadRequest.self) else {
+            assertionFailure("downloadTask did not find DownloadRequest.")
+            return
+        }
+
+        guard let response = request.response else {
+            fatalError("URLSessionDownloadTask finished downloading with no response.")
+        }
+
+        let (destination, options) = (request.destination)(location, response)
+
+        eventMonitor?.request(request, didCreateDestinationURL: destination)
+
+        do {
+            if options.contains(.removePreviousFile), fileManager.fileExists(atPath: destination.path) {
+                try fileManager.removeItem(at: destination)
+            }
+
+            if options.contains(.createIntermediateDirectories) {
+                let directory = destination.deletingLastPathComponent()
+                try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
+            }
+
+            try fileManager.moveItem(at: location, to: destination)
+
+            request.didFinishDownloading(using: downloadTask, with: .success(destination))
+        } catch {
             request.didFinishDownloading(using: downloadTask, with: .failure(.downloadedFileMoveFailed(error: error, source: location, destination: destination)))
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
         }
     }
 }

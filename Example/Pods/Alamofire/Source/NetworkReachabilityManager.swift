@@ -72,17 +72,28 @@ open class NetworkReachabilityManager {
     // MARK: - Properties
 
     /// Whether the network is currently reachable.
+<<<<<<< HEAD
+    open var isReachable: Bool { isReachableOnCellular || isReachableOnEthernetOrWiFi }
+=======
     open var isReachable: Bool { return isReachableOnCellular || isReachableOnEthernetOrWiFi }
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
 
     /// Whether the network is currently reachable over the cellular interface.
     ///
     /// - Note: Using this property to decide whether to make a high or low bandwidth request is not recommended.
     ///         Instead, set the `allowsCellularAccess` on any `URLRequest`s being issued.
     ///
+<<<<<<< HEAD
+    open var isReachableOnCellular: Bool { status == .reachable(.cellular) }
+
+    /// Whether the network is currently reachable over Ethernet or WiFi interface.
+    open var isReachableOnEthernetOrWiFi: Bool { status == .reachable(.ethernetOrWiFi) }
+=======
     open var isReachableOnCellular: Bool { return status == .reachable(.cellular) }
 
     /// Whether the network is currently reachable over Ethernet or WiFi interface.
     open var isReachableOnEthernetOrWiFi: Bool { return status == .reachable(.ethernetOrWiFi) }
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
 
     /// `DispatchQueue` on which reachability will update.
     public let reachabilityQueue = DispatchQueue(label: "org.alamofire.reachabilityQueue")
@@ -96,7 +107,11 @@ open class NetworkReachabilityManager {
 
     /// The current network reachability status.
     open var status: NetworkReachabilityStatus {
+<<<<<<< HEAD
+        flags.map(NetworkReachabilityStatus.init) ?? .unknown
+=======
         return flags.map(NetworkReachabilityStatus.init) ?? .unknown
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     }
 
     /// Mutable state storage.
@@ -113,7 +128,12 @@ open class NetworkReachabilityManager {
     private let reachability: SCNetworkReachability
 
     /// Protected storage for mutable state.
+<<<<<<< HEAD
+    @Protected
+    private var mutableState = MutableState()
+=======
     private let mutableState = Protector(MutableState())
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
 
     // MARK: - Initialization
 
@@ -167,7 +187,11 @@ open class NetworkReachabilityManager {
                              onUpdatePerforming listener: @escaping Listener) -> Bool {
         stopListening()
 
+<<<<<<< HEAD
+        $mutableState.write { state in
+=======
         mutableState.write { state in
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
             state.listenerQueue = queue
             state.listener = listener
         }
@@ -201,7 +225,11 @@ open class NetworkReachabilityManager {
     open func stopListening() {
         SCNetworkReachabilitySetCallback(reachability, nil, nil)
         SCNetworkReachabilitySetDispatchQueue(reachability, nil)
+<<<<<<< HEAD
+        $mutableState.write { state in
+=======
         mutableState.write { state in
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
             state.listener = nil
             state.listenerQueue = nil
             state.previousStatus = nil
@@ -218,7 +246,11 @@ open class NetworkReachabilityManager {
     func notifyListener(_ flags: SCNetworkReachabilityFlags) {
         let newStatus = NetworkReachabilityStatus(flags)
 
+<<<<<<< HEAD
+        $mutableState.write { state in
+=======
         mutableState.write { state in
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
             guard state.previousStatus != newStatus else { return }
 
             state.previousStatus = newStatus
@@ -234,11 +266,19 @@ open class NetworkReachabilityManager {
 extension NetworkReachabilityManager.NetworkReachabilityStatus: Equatable {}
 
 extension SCNetworkReachabilityFlags {
+<<<<<<< HEAD
+    var isReachable: Bool { contains(.reachable) }
+    var isConnectionRequired: Bool { contains(.connectionRequired) }
+    var canConnectAutomatically: Bool { contains(.connectionOnDemand) || contains(.connectionOnTraffic) }
+    var canConnectWithoutUserInteraction: Bool { canConnectAutomatically && !contains(.interventionRequired) }
+    var isActuallyReachable: Bool { isReachable && (!isConnectionRequired || canConnectWithoutUserInteraction) }
+=======
     var isReachable: Bool { return contains(.reachable) }
     var isConnectionRequired: Bool { return contains(.connectionRequired) }
     var canConnectAutomatically: Bool { return contains(.connectionOnDemand) || contains(.connectionOnTraffic) }
     var canConnectWithoutUserInteraction: Bool { return canConnectAutomatically && !contains(.interventionRequired) }
     var isActuallyReachable: Bool { return isReachable && (!isConnectionRequired || canConnectWithoutUserInteraction) }
+>>>>>>> 06494a9dfa97c52cc9034b21561f54a6f8459079
     var isCellular: Bool {
         #if os(iOS) || os(tvOS)
         return contains(.isWWAN)
